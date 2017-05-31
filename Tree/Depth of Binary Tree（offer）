@@ -32,7 +32,7 @@ public class Solution {
             if (root.val > maxDepth){
                 maxDepth = root.val;
             }
-            return maxDepth;
+            return maxDepth; 
         }
         if (root.left != null){
             root.left.val = root.val + 1;
