@@ -1,0 +1,49 @@
+public class Solution {//solution 1
+    //思路：遍历每一行，行内使用二分查找
+    public boolean Find(int target, int [][] array) {
+		if(array == null) return false;
+        for (int i = 0; i < array.length; i++){
+            int len = array[i].length;
+            //边界条件！！
+            if(len == 0) 
+                continue;
+            else{
+                //与该行第一个元素以及最后一个元素相比较
+                if (target < array[i][0])
+                    return false;
+                if (target > array[i][len-1])
+                    continue;
+                //dichotomy
+                int left = 0;
+                int right = len-1;
+                while(left <= right){
+                    int mid = (left + right) / 2;
+                    if (array[i][mid] == target)
+                        return true;
+                    else if(array[i][mid] < target)
+                        left = mid + 1;
+                    else
+                        right = mid - 1;
+                }
+            }
+        }
+        return false;
+    }
+}
+
+public class Solution {//solution2
+    //思路：与右上角的值相比较，比target大则往左找，反之往下找
+    public boolean Find(int target, int [][] array) {
+		int row = 0;
+        int col = array[0].length-1;
+        while(row <= array.length-1 && col >= 0){
+            if(array[row][col] == target)
+                return true;
+            else if (array[row][col] > target)
+                col--;
+            else
+                row++;
+        }
+        return false;
+    }
+}
