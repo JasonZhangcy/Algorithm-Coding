@@ -1,0 +1,65 @@
+/**
+*    public class ListNode {
+*        int val;
+*        ListNode next = null;
+*
+*        ListNode(int val) {
+*            this.val = val;
+*        }
+*    }
+*
+*/
+import java.util.ArrayList;
+public class Solution {//solution 1
+    //反转链表
+    public ArrayList<Integer> printListFromTailToHead(ListNode listNode) {
+        ArrayList<Integer> array = new ArrayList<Integer>();
+        ListNode curNode = listNode;
+        ListNode prevNode = null;
+        ListNode headNode = null;
+        while(curNode != null){
+            if(curNode.next == null)
+                headNode = curNode;
+            ListNode nextNode = curNode.next;
+            curNode.next = prevNode;
+            prevNode = curNode;
+            curNode = nextNode;
+        }
+        curNode = headNode;
+        while(curNode != null){
+            array.add(curNode.val);
+            curNode = curNode.next;
+        }
+        return array;
+    }
+}
+
+import java.util.ArrayList;
+import java.util.Stack;
+public class Solution {//Solution 2
+    //那种“头变尾，尾变头”的题型都可以考虑一下stack
+    public ArrayList<Integer> printListFromTailToHead(ListNode listNode) {
+        ArrayList<Integer> array = new ArrayList<Integer>();
+        Stack<Integer> stack = new Stack<Integer>();
+        ListNode node = listNode;
+        while(node != null){
+            stack.push(node.val);
+            node = node.next;
+        }
+        while(!stack.isEmpty()){
+            array.add(stack.pop());
+        }
+        return array;
+    }
+}
+
+public class Solution {//solution 3
+    //递归
+    ArrayList<Integer> array = new ArrayList<Integer>(); //全局变量
+    public ArrayList<Integer> printListFromTailToHead(ListNode listNode) {
+		if(listNode == null) return array;
+        printListFromTailToHead(listNode.next);
+        array.add(listNode.val);
+        return array;
+    }
+}
