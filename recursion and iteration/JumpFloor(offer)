@@ -1,0 +1,30 @@
+public class Solution {//solution 1
+    //recurion
+    public static int JumpFloor(int target) {
+        if(target < 0) return 0;
+        if(target == 0) return 1;
+        int oneStep = JumpFloor(target-1);
+        int twoStep = JumpFloor(target-2);
+        return oneStep + twoStep;
+    }
+}
+
+
+public class Solution {//solution 2
+    //dynamic programming
+    public int JumpFloor(int target) {
+        int[] dp = new int [target+1];
+        if (target == 0) return 1;
+        if (target == 1) return 1;
+        if (target == 2) return 2;
+        dp[0] = 1;
+        dp[1] = 1;
+        dp[2] = 2;
+        for (int i = 3; i <= target; i++){
+            dp[i] = dp[i-1] + dp[i-2];
+        }
+        return dp[target];
+    }
+}
+//实际上solution2只需要保存两个变量即可，所以并不需要用到整个数组的空间
+//这实际上是斐波那契数列(Fibonacci)
