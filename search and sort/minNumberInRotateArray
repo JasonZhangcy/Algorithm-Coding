@@ -1,0 +1,44 @@
+import java.util.ArrayList;
+public class Solution {
+    //思想：二分查找
+    //控制左指针在左“递增”序列，右指针在右“递增”序列
+    public int minNumberInRotateArray(int [] array) {
+    	if (array.length == 0) return 0;
+        int min;
+        int left = 0;
+        int right = array.length-1;
+        //数组没有一个元素旋转
+        if(array[left] < array[right])
+            return array[left];
+        while(true){
+            int mid = (left + right)/2;
+            if(array[left] == array[right] && array[mid] == array[right]){
+                min = minInOrder(left,right,array);
+                break;
+            }
+            if(right-left == 1){
+                min = array[right];
+                break;
+            }
+            if(array[mid] >= array[left])
+                left = mid; //注意不是left = mid + 1,否则最后会超过界限
+            if(array[mid] <= array[right])
+                right = mid;
+        }
+        return min;
+    }
+    //顺序查找
+    public int minInOrder(int left,int right,int[] array){
+        int min = array[left];
+        for (int i = left+1; i <= right; i++){
+            min = Math.min(min,array[i]);
+        }
+        return min;
+    }
+}
+
+
+
+
+
+
