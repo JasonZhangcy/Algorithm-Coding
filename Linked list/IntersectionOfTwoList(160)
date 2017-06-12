@@ -1,0 +1,72 @@
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode(int x) {
+ *         val = x;
+ *         next = null;
+ *     }
+ * }
+ */
+public class Solution {//solution 1
+    public ListNode getIntersectionNode(ListNode headA, ListNode headB) {
+        if(headA == null || headB == null) return null;
+        int lenA = getLength(headA);
+        int lenB = getLength(headB);
+        ListNode longNode = null;
+        ListNode shortNode = null;
+        ListNode firstNode = null;
+        int dif;
+        if(lenA >= lenB){
+            longNode = headA;
+            shortNode = headB;
+            dif = lenA - lenB;
+        }else{
+            longNode = headB;
+            shortNode = headA;
+            dif = lenB - lenA;
+        }
+        for (int i = 1; i <= dif; i++){
+            longNode = longNode.next;
+        }
+        while (longNode!= null && shortNode != null){
+            if(longNode == shortNode){
+                firstNode = longNode;
+                break;
+            }
+            longNode = longNode.next;
+            shortNode = shortNode.next;
+        }
+        return firstNode;
+    }
+    public int getLength(ListNode node){
+        int len = 0;
+        while(node != null){
+            len++;
+            node = node.next;
+        }
+        return len;
+    }
+}
+
+
+public class Solution {//solution 2
+    //不需要知道len
+    //这里实际有两次循环，第一次把长的List遍历完之后头指针指到短List那里去，把短的指到长的那里去——实际上抹平了两者的长度差值
+    public ListNode getIntersectionNode(ListNode headA, ListNode headB) {
+        if(headA == null || headB == null) return null;
+        ListNode a = headA;
+        ListNode b = headB;
+        while(a != b){
+            a = (a == null ? headB : a.next);
+            b = (b == null ? headA : b.next);
+        }
+        return a;
+    }
+}
+
+
+
+
+
