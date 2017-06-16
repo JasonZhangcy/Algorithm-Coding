@@ -35,7 +35,7 @@ public class MergeSort {
 		//复制回原数组
 		for(int i = 0;i < tmp.length;i++){
 			array[left++] = tmp[i];
-		}	 
+		}	                 
 		
 	}
 }
