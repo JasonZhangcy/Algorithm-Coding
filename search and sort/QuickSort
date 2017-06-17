@@ -39,6 +39,7 @@ public class QuickSort {
 //		return b;
 		
 		//another implementation
+		//思想是其实一个指针所指的元素是多余的（场上存在两个相同的元素）
 		int po = (int)(Math.random()*(right-left+1)) + left;
         	Swap(array,po,left);
         	int pivot = array[left];
