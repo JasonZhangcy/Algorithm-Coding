@@ -1,0 +1,85 @@
+import java.util.ArrayList;
+public class Solution {//iteration version
+    public ArrayList<Integer> GetLeastNumbers_Solution(int [] input, int k) {
+        ArrayList<Integer> array = new ArrayList<Integer>();
+        if(input.length < k || k == 0)
+            return array;
+        int start = 0,end = input.length-1;
+        int po = Patition(input,start,end);
+        //只要po==k-1，则po及前面有k个最小数
+        while(po != k-1){
+            if(po < k-1)
+                po = Patition(input,po+1,end);
+            else
+                po = Patition(input,start,po-1);
+        }
+        for (int i = 0; i < k; i++){
+            array.add(input[i]);
+        }
+        return array;
+    }
+    public int Patition(int[] array,int low,int high){
+        int po = (int)(Math.random()*(high-low+1)) + low;
+        Swap(array,po,low);
+        po = low;
+        int left = low, right = high;
+        while(true){
+            while(array[left] <= array[po] && left < right){left++;}
+            while(array[right] > array[po]){right--;}
+            if(left >= right) break;
+            Swap(array,left,right);
+        }
+        Swap(array,po,right);
+        return right;
+    }
+    public void Swap(int[] array, int a, int b){
+        int tmp = array[a];
+        array[a] = array[b];
+        array[b] = tmp;
+    }
+}
+
+
+import java.util.ArrayList;
+public class Solution {//recursion version
+    public ArrayList<Integer> GetLeastNumbers_Solution(int [] input, int k) {
+        ArrayList<Integer> array = new ArrayList<Integer>();
+        if(input.length < k || k == 0)
+            return array;
+        getLeastNumbers(input,k,0,input.length-1);
+        for (int i = 0; i < k; i++){
+            array.add(input[i]);
+        }
+        return array;
+    }
+    public void getLeastNumbers(int[] array, int remain,int low,int high){
+        if(low >= high) return;
+        if(low-high+1 == remain) return;
+        int po = Patition(array,low,high);
+        if(po-low+1 == remain) return;
+        else if(po-low+1 > remain)
+            getLeastNumbers(array,remain,low,po-1);
+        else
+            getLeastNumbers(array,remain-(po-low+1),po+1,high);
+    }
+    public int Patition(int[] array,int start,int end){
+        int po = (int)(Math.random()*(end-start+1)) + start;
+        Swap(array,po,start);
+        int pivot = array[start];
+        int left = start, right = end;
+        while(left < right){
+            while(array[right] > pivot && left < right){right--;}
+            array[left] = array[right];
+            while(array[left] <= pivot && left < right){left++;}
+            array[right] = array[left];
+        }
+        array[left] = pivot;
+        return left;
+    }
+    public void Swap(int[] array, int a, int b){
+        int tmp = array[a];
+        array[a] = array[b];
+        array[b] = tmp;
+    }
+}
+
