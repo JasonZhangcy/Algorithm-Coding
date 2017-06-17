@@ -26,7 +26,7 @@ public class QuickSort {
 //		Swap(array,p,left);
 //		p = left;
 //		
-//		int a = left+1;
+//		int a = left;
 //		int b = right;
 //		while(true){
 //			while(array[a] <= array[p] && a < b){a++;}
