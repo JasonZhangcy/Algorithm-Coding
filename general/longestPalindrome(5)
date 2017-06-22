@@ -1,0 +1,36 @@
+/**
+*时间复杂度：O(n * longestLen)
+*思路：greedy
+*设当前最长回文串为longestLen
+*遍历字符串，每次只需检查(i-longestLen-1,i)以及（i-longestLen,i）是否回文串
+*在longestLen之后的下标显然不必检查
+*在longestLen之前的下标也不用检查，因为如果这是最长回文串，则实际最长回文串肯定比当前值大，这是不可能的
+*/
+public class Solution {
+    public String longestPalindrome(String s) {
+        if(s.length() == 0) return "";
+        int longestLen = 0;
+        String str = "";
+        for(int i = 0; i < s.length(); i++){
+            if(isPalindromic(s,i-longestLen-1,i)){
+                str = s.substring(i-longestLen-1,i+1);
+                longestLen = longestLen + 2;
+            }
+            if(isPalindromic(s,i-longestLen,i)){
+                str = s.substring(i-longestLen,i+1);
+                longestLen++;
+            }
+        }
+        return str;
+    }
+    public boolean isPalindromic(String s, int start, int end){
+        if(start < 0) return false;
+        int low = start, high = end;
+        while(low <= high){
+            if(s.charAt(low++) != s.charAt(high--))
+                return false;
+        }
+        return true;
+    }
+}
+
