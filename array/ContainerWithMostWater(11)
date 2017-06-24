@@ -1,0 +1,26 @@
+/**
+*时间复杂度：O(n)
+*用两指针分别指向数组首尾
+*由于面积公式为:(high-low)*min(a[low],a[high])
+*此时(high-low)最大，如果想要增加面积，只能增大a[low]或a[high]
+*如果a[low] < a[high],则左指针向左移；反之右指针向右移
+*/
+public class Solution {
+    public int maxArea(int[] height) {
+        int low = 0;
+        int high = height.length - 1;
+        int max = 0;
+        while(low < high){
+            int area = (high - low)*Math.min(height[low],height[high]);
+            max = Math.max(max,area);
+            if(height[low] <= height[high]){
+                int tmp = height[low];
+                while(low < high && height[low] <= tmp) low++;
+            }else{
+                int tmp = height[high];
+                while(low < high && height[high] <= tmp) high--;
+            }
+        }
+        return max;
+    }
+}
