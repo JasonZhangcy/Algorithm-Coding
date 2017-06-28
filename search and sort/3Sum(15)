@@ -1,0 +1,41 @@
+/**
+*时间复杂度：O(n^2)
+*思路：bi-directional search
+*第一个num从数组下标0开始遍历至数组前第三个数
+*第二、三个num利用bi-directional search：
+*如果第二、三个num的sum比target大，则右指针往左移；反之，左指针往右移
+*能这样做的原因有两个：
+*1.假如有两组sum满足条件，那么一定是最小和最大匹配，次小和次大匹配，不可能最小和次大（或者次小和最大）的匹配
+*2.假如第二、三个数的下标分别为i和j,那么左右指针一定不可能“越过”i和j，因为一旦某个指针到达i或j，则该指针一定会停在那里，只能移动另一个指针才满足条件
+*这题的思路跟11题寻找最大water container有点像
+*/
+public class Solution {
+    public List<List<Integer>> threeSum(int[] nums) {
+       List<List<Integer>> res = new ArrayList();
+       if(nums == null || nums.length < 3) return res;
+       Arrays.sort(nums);
+       for(int i = 0; i < nums.length-2; i++){
+           //skip equal first number
+           if(i > 0 && nums[i] == nums[i-1]) continue;
+           int target = 0 - nums[i];
+           int low = i + 1;
+           int high = nums.length - 1;
+           while(low < high){
+               int sum = nums[low] + nums[high];
+               if(sum == target){
+                   res.add(Arrays.asList(nums[i],nums[low],nums[high]));
+                   low++;
+                   high--;
+                   //skip equal second and third number
+                   while(low < high && nums[low] == nums[low-1]) low++;
+                   while(low < high && nums[high] == nums[high+1]) high--;
+               }else if(sum > target){
+                   high--;
+               }else{
+                   low++;
+               }
+           }
+       }
+       return res;
+    }
+}
