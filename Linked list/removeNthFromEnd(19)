@@ -1,0 +1,64 @@
+/**
+*思路：递归
+*先遍历到链表尾部，递归返回第k层，若k=n+1则连接node.next.next
+*这种要求从链表尾部开始的题目都可以考虑递归
+*/
+
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode(int x) { val = x; }
+ * }
+ */
+public class Solution {
+    public ListNode removeNthFromEnd(ListNode head, int n) {
+        if(head == null) return null;
+        ListNode node = new ListNode(1);
+        node.next = head;
+        int k = recursiveRemove(node,n);
+        return node.next;
+    }
+    public int recursiveRemove(ListNode node, int n){
+        if(node == null) return 1;
+        int k = recursiveRemove(node.next,n);
+        if(k == n + 1)
+            node.next = node.next.next;
+        return k + 1;
+    }
+}
+
+/**
+*思路：用两个指针来控制距离，一个快一个慢
+*快指针先跑n+1,然后开始跑慢指针
+*最后慢指针指向n+1（从尾部开始数）的node
+*链表的题用两个指针来控制距离也是很常见的做法
+*/
+
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode(int x) { val = x; }
+ * }
+ */
+public class Solution {
+    public ListNode removeNthFromEnd(ListNode head, int n) {
+        if(head == null) return null;
+        ListNode node = new ListNode(0);
+        ListNode slow = node;
+        ListNode fast = node;
+        node.next = head;
+        for(int i = 1; i <= n + 1; i++){
+            fast = fast.next;
+        }
+        while(fast != null){
+            fast = fast.next;
+            slow = slow.next;
+        }
+        slow.next = slow.next.next;
+        return node.next;
+    }
+}
