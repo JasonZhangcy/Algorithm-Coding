@@ -12,6 +12,7 @@ public class Solution {
             return array[left];
         while(true){
             int mid = (left + right)/2;
+            //如果这三者都相等，那么无法判断中点到底落在哪一部分，此时只能用顺序查找
             if(array[left] == array[right] && array[mid] == array[right]){
                 min = minInOrder(left,right,array);
                 break;
