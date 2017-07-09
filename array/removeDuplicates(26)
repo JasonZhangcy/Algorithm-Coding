@@ -1,0 +1,17 @@
+/**
+*时间复杂度：O(n)
+*思想：用两个指针，一快一慢，慢指针指向目前不重复的元素，快指针找下一个不重复的元素，然后与slow的下一个位置交换（实际不用交换，直接复制过去就行）
+*/
+public class Solution {
+    public int removeDuplicates(int[] nums) {
+        if(nums.length == 0) return 0;
+        int fast = 1, slow = 0;
+        while(fast < nums.length){
+            if(nums[fast] != nums[slow])
+                nums[++slow] = nums[fast];
+            fast++;
+        }
+        //因为是返回数组长度，所以要+1
+        return slow+1;
+    }
+}
