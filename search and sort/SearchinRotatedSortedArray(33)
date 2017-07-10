@@ -1,0 +1,30 @@
+/**
+*时间复杂度：O(logn)
+*思想：二分法，如果mid在左递增区间（nums[mid] >= nums[left]），再判断target是否在递增区间，若在，则right指针右移；反之left指针左移
+*如果mid在右递增区间，思想类似
+*/
+public class Solution {
+    public int search(int[] nums, int target) {
+        int left = 0, right = nums.length - 1;
+        while(left <= right){
+            int mid = (left + right) / 2;
+            if(nums[mid] == target) return mid;
+            //mid in left part
+            if(nums[mid] >= nums[left]){
+                //target在递增区间内
+                if(target >= nums[left] && target < nums[mid])
+                    right = mid - 1;
+                else
+                    left = mid + 1;
+            }
+            //mid in right part
+            else{
+                if(target > nums[mid] && target <= nums[right])
+                    left = mid + 1;
+                else
+                    right = mid - 1;
+            }
+        }
+        return -1;
+    }
+}
