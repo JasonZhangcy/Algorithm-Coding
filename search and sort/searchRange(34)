@@ -1,0 +1,86 @@
+/**
+*时间复杂度：O(n)
+*思路：先找到其中一个target，再分别向左向右使用二分法找到左右边界
+*这种做法总共用了三次二分法
+*/
+public class Solution {
+    public int[] searchRange(int[] nums, int target) {
+        int left = 0, right = nums.length-1,leftBoundary = -1, rightBoundary = -1;
+        int[] res = {-1,-1};
+        while(left <= right){
+            int mid = (left + right) / 2;
+            if(nums[mid] == target){
+                int pivot = mid;
+                int low = pivot,high = right;
+                //find right boundary
+                while(low < high){
+                    mid = (low + high) / 2;
+                    if(nums[mid] <= target)
+                        low = mid + 1;
+                    else
+                        high = mid - 1;
+                }
+                rightBoundary = (nums[low] == target) ? low : low - 1;
+                //find left boundary
+                high = pivot;
+                low = left;
+                while(low < high){
+                    mid = (low + high) / 2;
+                    if(nums[mid] >= target)
+                        high = mid - 1;
+                    else
+                        low = mid + 1;
+                }
+                leftBoundary = (nums[low] == target) ? low : low + 1;
+                return new int[]{leftBoundary,rightBoundary};
+            }else if(nums[mid] < target)
+                left = mid + 1;
+            else
+                right = mid - 1;
+        }
+        return res;
+    }
+}
+
+/**
+*时间复杂度：O(n)
+*思路：直接向左向右夹逼找左右边界，当mid等于target的时候也移动指针夹逼
+*这种做法总共用了两次二分法
+*/
+public class Solution {
+    public int[] searchRange(int[] nums, int target) {
+        if(nums.length == 0) return new int[]{-1,-1};
+        int[] res = {-1,-1};
+        int left = 0,right = nums.length-1;
+        int leftBoundary,rightBoundary;
+        //find right boundary
+        while(left <= right){
+            int mid = (left + right) / 2;
+            if(nums[mid] <= target)
+                left = mid + 1;
+            else 
+                right = mid - 1;
+        }
+        rightBoundary = right;
+        //find left boundary
+        left = 0;
+        right = nums.length-1;
+        while(left <= right){
+            int mid = (left + right) / 2;
+            if(nums[mid] >= target)
+                right = mid - 1;
+            else
+                left = mid + 1;
+        }
+        leftBoundary = left;
+        //如果数组不存在target，则最终leftBoundary > rightBoundary
+        if(leftBoundary <= rightBoundary){
+            res[0] = leftBoundary;
+            res[1] = rightBoundary;
+        }
+        return res;
+    }
+}
+
+
+
