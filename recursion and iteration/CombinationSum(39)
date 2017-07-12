@@ -1,0 +1,54 @@
+/**
+*思路：先排序，递归寻找sum为target的组合
+*排序是为了方便后面剪枝
+*/
+public class Solution {
+    List<List<Integer>> res = new ArrayList<>();
+    public List<List<Integer>> combinationSum(int[] candidates, int target) {
+        //排序是为了后面方便剪枝
+        Arrays.sort(candidates);
+        recursiveSum(new ArrayList(),candidates,0,target);
+        return res;
+    }
+    public void recursiveSum(List<Integer> curList, int[] cans, int start, int remain){
+        if(remain == 0){
+            res.add(curList);
+        }else{
+            //剪枝:当前值要<=remain
+            for(int i = start; i < cans.length && cans[i] <= remain; i++){
+                //list的deepcopy
+                List<Integer> newList = new ArrayList(curList);
+                newList.add(cans[i]);
+                recursiveSum(newList,cans,i,remain-cans[i]);
+            }
+        }
+    }
+}
+
+/**
+*还有点小改进就是先递归，递归完再remove当前值
+*上面这种就是每次add之前都要deepcopy,而下面这种是只有当最终出现符合要求的curList时才deepcopy
+*/
+public class Solution {
+    List<List<Integer>> res = new ArrayList<>();
+    public List<List<Integer>> combinationSum(int[] candidates, int target) {
+        //排序是为了后面方便剪枝
+        Arrays.sort(candidates);
+        recursiveSum(new ArrayList(),candidates,0,target);
+        return res;
+    }
+    public void recursiveSum(List<Integer> curList, int[] cans, int start, int remain){
+        if(remain == 0){
+            //必须要deepcopy,否则curList remove元素的时候也会把res里的相同元素删掉
+            res.add(new ArrayList(curList));
+        }else{
+            //剪枝:当前值要<=remain
+            for(int i = start; i < cans.length && cans[i] <= remain; i++){
+                curList.add(cans[i]);
+                recursiveSum(curList,cans,i,remain-cans[i]);
+                //移除最后一个数，相当于我们以前new一个新的list进入下一个递归。这里的做法是先递归完再移除，值得学习!
+                curList.remove(curList.size()-1);
+            }
+        }
+    }
+}
