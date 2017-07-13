@@ -1,0 +1,26 @@
+/**
+*思路与CombinationSumI类似，只是下一层要i+1
+*/
+public class Solution {
+    List<List<Integer>> res = new ArrayList<>();
+    public List<List<Integer>> combinationSum2(int[] candidates, int target) {
+        //排序是为了后面方便剪枝
+        Arrays.sort(candidates);
+        recursiveSum(new ArrayList(),candidates,0,target);
+        return res;
+    }
+    public void recursiveSum(List<Integer> curList, int[] cans, int start, int remain){
+        if(remain == 0){
+            res.add(curList);
+        }else{
+            //剪枝:当前值要<=remain
+            for(int i = start; i < cans.length && cans[i] <= remain; i++){
+                //注意i不能等于start，否则会skip掉下一层的第一个重复数（本不该skip）
+                if(i != start && cans[i] == cans[i-1]) continue;
+                List<Integer> newList = new ArrayList(curList);
+                newList.add(cans[i]);
+                recursiveSum(newList,cans,i+1,remain-cans[i]);
+            }
+        }
+    }
+}
