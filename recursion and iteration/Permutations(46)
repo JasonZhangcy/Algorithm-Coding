@@ -1,0 +1,74 @@
+/**
+*思路：每进入下一层之前复制一遍数组（深拷贝），然后把当前值与start交换位置——这样可以保证数组start前面的都是遍历过的
+*/
+public class Solution {
+    List<List<Integer>> res = new ArrayList();
+    public List<List<Integer>> permute(int[] nums) {
+        Recursion(new ArrayList(),nums,0,0);
+        return res;
+    }
+    public void Recursion(List<Integer> curList, int[] nums, int len,int start){
+        if(len == nums.length){
+            res.add(curList);
+            return;
+        }
+        for(int i = start; i < nums.length; i++){
+            //深拷贝数组
+            int[] nextNums = Arrays.copyOf(nums,nums.length);
+            if(i != start){
+                int tmp = nums[start];
+                nextNums[start] = nextNums[i];
+                nextNums[i] = tmp;
+            }
+            List<Integer> newList = new ArrayList(curList);
+            newList.add(nextNums[start]);
+            Recursion(newList,nextNums,len+1,start+1);
+        }    
+    }
+}
+
+/**
+*思路：利用list的函数：contains（）判断某个数是否在curList里面（这种方法简单但效率低）
+*/
+public class Solution {
+    List<List<Integer>> res = new ArrayList();
+    public List<List<Integer>> permute(int[] nums) {
+        Recursion(new ArrayList(),nums,0);
+        return res;
+    }
+    public void Recursion(List<Integer> curList, int[] nums, int len){
+        if(len == nums.length){
+            res.add(curList);
+            return;
+        }
+        for(int i = 0; i < nums.length; i++){
+            if(curList.contains(nums[i])) continue;
+            List<Integer> newList = new ArrayList(curList);
+            newList.add(nums[i]);
+            Recursion(newList,nums,len+1);
+        }    
+    }
+}
+
+/**
+*思路：插入法，每一层把当前index的值插入到所有可能的位置当中，然后进入下一个index,再遍历插入所有可能的位置
+*/
+public class Solution {
+    List<List<Integer>> res = new ArrayList();
+    public List<List<Integer>> permute(int[] nums) {
+        Recursion(new ArrayList(),nums,0,0);
+        return res;
+    }
+    public void Recursion(List<Integer> curList, int[] nums, int len, int index){
+        if(len == nums.length){
+            res.add(new ArrayList(curList));
+            return;
+        }
+        for(int i = 0; i <= index; i++){
+            //list的add(x,i)是把x插入i位置当中，其它数后移
+            curList.add(i,nums[index]);
+            Recursion(curList,nums,len+1,index+1);
+            curList.remove(i);
+        }    
+    }
+}
