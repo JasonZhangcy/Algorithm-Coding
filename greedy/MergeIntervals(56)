@@ -1,0 +1,63 @@
+/**
+*时间复杂度：O(nlogn)
+*思路：先对原List排序，根据start与end的关系进行对原list合并
+*/
+
+/**
+ * Definition for an interval.
+ * public class Interval {
+ *     int start;
+ *     int end;
+ *     Interval() { start = 0; end = 0; }
+ *     Interval(int s, int e) { start = s; end = e; }
+ * }
+ */
+public class Solution {
+    public List<Interval> merge(List<Interval> intervals) {
+        List<Interval> res = new ArrayList();
+        Collections.sort(intervals,new Comparator<Interval>(){
+            @Override
+            public int compare(Interval i1, Interval i2){
+                return i1.start - i2.start;
+            }
+        });
+        //注意list中的元素可以用这种方法取出来
+        for(Interval interval : intervals){
+            if(res.size() != 0 && interval.start <= res.get(res.size()-1).end){
+                //get the last interval in res
+                Interval last = res.get(res.size()-1);
+                if(interval.end > last.end)
+                    last.end = interval.end;
+            }else{
+                res.add(interval);
+            }
+        }
+        return res;
+    }
+}
+
+/**
+*实现Comparator还有一种方法
+*/
+public class Solution {
+    public List<Interval> merge(List<Interval> intervals) {
+        List<Interval> res = new ArrayList();
+        Collections.sort(intervals,new MyComparator());
+        for(Interval interval : intervals){
+            if(res.size() != 0 && interval.start <= res.get(res.size()-1).end){
+                //get the last interval in res
+                Interval last = res.get(res.size()-1);
+                if(interval.end > last.end)
+                    last.end = interval.end;
+            }else{
+                res.add(interval);
+            }
+        }
+        return res;
+    }
+}
+class MyComparator implements Comparator<Interval>{
+    public int compare(Interval i1, Interval i2){
+        return i1.start - i2.start;
+    }
+}
