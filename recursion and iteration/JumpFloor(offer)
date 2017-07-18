@@ -8,7 +8,7 @@ public class Solution {//solution 1
         return oneStep + twoStep;
     }
 }  
-
+ 
 
 public class Solution {//solution 2
     //dynamic programming
