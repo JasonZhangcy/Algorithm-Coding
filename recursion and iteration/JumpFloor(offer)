@@ -7,7 +7,7 @@ public class Solution {//solution 1
         int twoStep = JumpFloor(target-2);
         return oneStep + twoStep;
     }
-} 
+}  
 
 
 public class Solution {//solution 2
