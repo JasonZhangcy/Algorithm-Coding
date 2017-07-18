@@ -29,3 +29,4 @@ public class Solution {//solution 2
 //思路：O(i)表示到达i有多少种走法，而到达i有两种方法，i-1和i-2，所以O(i) = O(i-1) + O(i-2)
 //实际上solution2只需要保存两个变量即可，所以并不需要用到整个数组的空间
 //这实际上是斐波那契数列(Fibonacci)
+ 
