@@ -13,7 +13,7 @@ public class Solution {//solution 1
 public class Solution {//solution 2
     //dynamic programming
     public int JumpFloor(int target) {
-        int[] dp = new int [target+1];
+        int[] dp = new int [target+1]; 
         if (target == 0) return 1; 
         if (target == 1) return 1;
         if (target == 2) return 2;
