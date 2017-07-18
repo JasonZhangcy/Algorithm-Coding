@@ -1,0 +1,19 @@
+/**
+*时间复杂度：O(n)
+*一开始我的想法是动归，从最后一个index开始往前遍历，O(i)表示可以到达最后的index
+*只要num[i]+i的范围内有一个O(k)可以到达目标，则O(i)=true
+*但是这种方法复杂度实际是O(n^2)
+*仔细想想，其实只要保存最后一个可以到达目标的index，然后i+num[i]可以覆盖这个index,则该位置也是可以到达目标的
+*/
+public class Solution {
+    public boolean canJump(int[] nums) {
+        if(nums.length == 0) return false;
+        int len = nums.length;
+        int last = len - 1;
+        for(int i = len-2; i >= 0; i--){
+            if(last <= i + nums[i])
+                last = i;
+        }
+        return (last == 0) ? true : false;
+    }
+}
