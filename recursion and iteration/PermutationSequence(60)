@@ -16,6 +16,7 @@ public class Solution {
         for(int i = 1; i <= n; i++){
             list.add(i);
         }
+        //k--是为了方便k / factorial[n-i]后能快速定位到index,而不需要再次转换，这种方式值得学习
         k--;
         for(int i = 1; i <= n; i++){
             int index = k / factorial[n-i];
