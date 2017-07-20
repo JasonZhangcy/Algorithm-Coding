@@ -9,7 +9,7 @@ public class Solution {
         StringBuilder sb = new StringBuilder();
         factorial[0] = 1;
         int sum = 1;        
-        for(int i = 1; i <= n; i++){
+        for(int i = 1; i <= n; i++){ 
             sum *= i;
             factorial[i] = sum;
         }
