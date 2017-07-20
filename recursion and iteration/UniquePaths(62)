@@ -1,0 +1,20 @@
+/**
+*时间复杂度：O(m*n)
+*思路：动态规划。一开始我的想法是用递归遍历所有情况，结果超时，然后就开始想是不是可以用动归解决（以后递归解决不了的是不是可以考虑动归？）
+*其实这题跟青蛙跳台阶那题很像，只不过把一维换成二维
+*递归方程是：O(i,j) = O(i-1,j) + O(i,j-1)
+*/
+public class Solution {
+    public int uniquePaths(int m, int n) {
+        int[][] dp = new int[m+1][n+1];
+        for(int i = 1; i <= m; i++)
+            for(int j = 1; j <= n; j++){
+                //初始化
+                if(i == 1 || j == 1)
+                    dp[i][j] = 1;
+                else
+                    dp[i][j] = dp[i-1][j] + dp[i][j-1];
+            }
+        return dp[m][n];
+    }
+}
