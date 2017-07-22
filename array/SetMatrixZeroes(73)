@@ -1,0 +1,41 @@
+/**
+*思路：这道题用O(m*n)的额外空间无疑是最糟的（即另开一个二维空间保存0），可以用O(m+n)改进：用一行一列保存哪一行哪一列要设为0
+*更近一步，如果我们直接用第一行第一列来保存结果，代替O(m+n)呢？
+*我们需要先保存第一行第一列的情况，然后遍历数组，如果该位置值为0，则设该行该列的第一个元素为0
+*然后根据情况，设置相应的行列为0，同时根据firstRow,firstCol值设置第一行第一列的值
+*这里必须要先保存第一行第一列的情况，否则最后会不知道第一行第一列是否需要全设置为0
+*这种in place的题（无额外空间），很多时候可以用自身的存储空间来当做记录器，保存数组的情况
+*/
+
+public class Solution {
+    public void setZeroes(int[][] matrix) {
+        boolean firstRow = false, firstCol = false;
+        for(int i = 0; i < matrix.length; i++){
+            for(int j = 0; j < matrix[0].length; j++){
+                if(matrix[i][j] == 0){
+                    //如果是第一行第一列的值，则设置为true,后面要整行整列设为0
+                    if(i == 0) firstRow = true;
+                    if(j == 0) firstCol = true;
+                    //设置该行该列的第一个元素为0
+                    matrix[0][j] = 0;
+                    matrix[i][0] = 0;
+                }
+            }
+        }
+        for(int i = 1; i < matrix.length; i++){
+            for(int j = 1; j < matrix[0].length; j++){
+                if(matrix[0][j] == 0 || matrix[i][0] == 0)
+                    matrix[i][j] = 0;
+            }
+        }
+        //根据情况，判断第一行第一列是否要全设置为0
+        if(firstRow){
+            for(int j = 0; j < matrix[0].length; j++)
+                matrix[0][j] = 0;
+        }
+        if(firstCol){
+            for(int i = 0; i < matrix.length; i++)
+                matrix[i][0] = 0;
+        }
+    }
+}
