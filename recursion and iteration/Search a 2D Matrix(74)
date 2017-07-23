@@ -1,0 +1,51 @@
+/**
+*时间复杂度：O(m + logn)
+*与每一行最后一个数相比较，如果大于target，则target在该行，接着用二分法查找
+*/
+public class Solution {
+    public boolean searchMatrix(int[][] matrix, int target) {
+        if(matrix.length == 0 || matrix[0].length == 0) return false;
+        int len = matrix[0].length;
+        for(int i = 0; i < matrix.length; i++){
+            if(target <= matrix[i][len-1]){
+                int left = 0, right = len - 1;
+                while(left <= right){
+                    int mid = (left + right) / 2;
+                    if(matrix[i][mid] == target)
+                        return true;
+                    else if(matrix[i][mid] > target)
+                        right = mid - 1;
+                    else
+                        left = mid + 1;
+                }
+                //在该行内却找不到
+                return false;
+            }
+        }
+        return false;
+    }
+}
+
+/**
+*时间复杂度：O(logn)
+*把整个二维数组当做一个一维数组对待，用二分法
+*/
+public class Solution {
+    public boolean searchMatrix(int[][] matrix, int target) {
+        if(matrix.length == 0 || matrix[0].length == 0) return false;
+        int len = matrix.length, width = matrix[0].length;
+        int left = 0, right = len * width -1;
+        while(left <= right){
+            int mid = (left + right) / 2;
+            //学习这种求行列的方法——特别是列，直接求余即可
+            int row = mid / width, col = mid % width;
+            if(matrix[row][col] == target)
+                return true;
+            else if(matrix[row][col] > target)
+                right = mid - 1;
+            else
+                left = mid + 1;
+        }
+        return false;
+    }
+}
