@@ -1,0 +1,51 @@
+/**
+*时间复杂度：O(n),2-pass
+*设两个计数器分别记录0和1的数量
+*/
+public class Solution {
+    public void sortColors(int[] nums) {
+        int cnt0 = 0, cnt1 = 0, p = 0;
+        for(int i = 0; i < nums.length; i++){
+            if(nums[i] == 0) cnt0++;
+            if(nums[i] == 1) cnt1++;
+        }
+        while(p < cnt0){
+            nums[p] = 0;
+            p++;
+        }
+        while(p < cnt0 + cnt1){
+            nums[p] = 1;
+            p++;
+        }
+        while(p < nums.length){
+            nums[p] = 2;
+            p++;
+        }
+    }
+}
+
+/**
+*时间复杂度：O(n),1-pass
+*用左指针指向0的下一个数，右指针指向2的前一个数，p指针用来遍历数组
+*若num[p]是0，则与num[left]交换；若是2，则与num[right]交换;若是1，则直接p++
+*需要注意的是，如果与left交换，则p现在所指的必定是1，所以可以p++;但是如果与right交换，p可能是0，1，2，所以p不能+1，而要等后续再判断
+*/
+public class Solution {
+    public void sortColors(int[] nums) {
+        int left = 0, right = nums.length-1, p = 0;
+        while(p <= right){
+            if(nums[p] == 0){
+                nums[p] = nums[left];
+                nums[left] = 0;
+                p++;
+                left++;
+            }else if(nums[p] == 2){
+                nums[p] = nums[right];
+                nums[right] = 2;
+                right--;
+            }else{
+                p++;
+            }
+        }
+    }
+}
