@@ -23,7 +23,7 @@ public class Solution {
                       backtrack(board,word,passed,i,j+1,index+1) ||
                       backtrack(board,word,passed,i-1,j,index+1) ||
                       backtrack(board,word,passed,i+1,j,index+1);
-        passed[i][j] = false;            
+        passed[i][j] = false;             
         return res;
         
         //这里有个很大的trick,一开始我是用了以下的写法：
