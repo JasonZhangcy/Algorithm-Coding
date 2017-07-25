@@ -1,0 +1,44 @@
+/**
+*思路：backtrack,每一个点检查周围四个点的值是否与index的值相同，若相同则继续搜索，否则返回上一层
+*/
+public class Solution {
+    public boolean exist(char[][] board, String word) {
+        boolean[][] passed = new boolean[board.length][board[0].length];
+        for(int i = 0; i < board.length; i++){
+            for(int j = 0; j < board[0].length; j++){
+                if(word.charAt(0) == board[i][j] && backtrack(board,word,passed,i,j,0)){
+                    return true;
+                }
+            }
+        }
+        return false;   
+    }
+    public boolean backtrack(char[][] board,String word,boolean[][] passed,int i,int j,int index){
+        if(i < 0 || i >= board.length || j < 0 || j >= board[0].length || board[i][j] != word.charAt(index) || passed[i][j])
+            return false;
+        if(index == word.length()-1)
+            return true;
+        passed[i][j] = true;
+         if(backtrack(board, word, passed, i-1, j, index+1) || 
+           backtrack(board, word, passed, i+1, j, index+1) ||
+           backtrack(board, word, passed, i, j-1, index+1) || 
+           backtrack(board, word, passed, i, j+1, index+1))
+          {
+            return true;
+          }
+        passed[i][j] = false;            
+        return false;
+        
+        //这里有个很大的trick,一开始我是用了以下的写法：
+        
+        // boolean left = backtrack(board,word,passed,i,j-1,index+1);
+        // boolean right = backtrack(board,word,passed,i,j+1,index+1);
+        // boolean up = backtrack(board,word,passed,i-1,j,index+1);
+        // boolean down = backtrack(board,word,passed,i+1,j,index+1);
+        //passed[i][j] = false; 
+        //return left || right || up || down;
+        
+        //看似没有问题而且很简洁，但是实际上，正确做法是在找到一个true之后，就应该立即返回，而不能继续搜下去；而这里却不是这样的
+        //例如left返回一个true,但是并此时没有立即返回true,而是right,up,down也继续搜下去了，这样时间复杂度就高了，也就超时了
+    }
+}
