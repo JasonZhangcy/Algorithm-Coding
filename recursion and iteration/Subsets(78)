@@ -1,0 +1,44 @@
+/**
+*思路：直接就是Combinations(77)的思路，只不过k是从0遍历到nums.length
+*/
+public class Solution {
+    List<List<Integer>> res = new ArrayList();
+    public List<List<Integer>> subsets(int[] nums) {
+        for(int i = 0; i <= nums.length; i++){
+            backtrack(new ArrayList(),nums,0,i);
+        }
+        return res;
+    }
+    public void backtrack(List<Integer> curList, int[] nums, int start, int k){
+        if(curList.size() == k){
+            res.add(new ArrayList(curList));
+            return;
+        }
+        for(int i = start; i < nums.length; i++){
+            curList.add(nums[i]);
+            backtrack(curList,nums,i+1,k);
+            curList.remove(curList.size()-1);
+        }
+    }
+}
+
+/**
+*另一个做法是直接每遍历到一个节点就add一次
+*这种做法得到的每一个set是无序的，如果想得到的sets好看一点，可以先对nums排序
+*/
+public class Solution {
+    List<List<Integer>> res = new ArrayList();
+    public List<List<Integer>> subsets(int[] nums) {
+        //Arrays.sort(nums);
+        backtrack(new ArrayList(),nums,0);
+        return res;
+    }
+    public void backtrack(List<Integer> curList, int[] nums, int start){
+        res.add(new ArrayList(curList));
+        for(int i = start; i < nums.length; i++){
+            curList.add(nums[i]);
+            backtrack(curList,nums,i+1);
+            curList.remove(curList.size()-1);
+        }
+    }
+}
