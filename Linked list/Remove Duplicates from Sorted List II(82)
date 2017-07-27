@@ -1,0 +1,35 @@
+/**
+*时间复杂度:O(n)
+*思路：先找到第一个与前面值不同的节点（用node来表示）
+*如果node.val != node.next.val，那么这个node是我们要的，pre = node
+*否则，我们就要循环找到第一个与前面值不同的节点
+*/
+
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode(int x) { val = x; }
+ * }
+ */
+public class Solution {
+    public ListNode deleteDuplicates(ListNode head) {
+        ListNode pre = new ListNode(-1);
+        ListNode first = pre, node = head;
+        pre.next = head;
+        while(node != null && node.next != null){
+            if(node.val != node.next.val){
+                pre = node;
+            }else{
+                while(node.next != null && node.val == node.next.val){
+                    node = node.next;
+                }
+                //很重要，跳出循环后无论node.next是第一个不同值还是null，pre.next都要指向node.next
+                pre.next = node.next;
+            }
+            node = node.next;    
+        }
+        return first.next;
+    }
+}
