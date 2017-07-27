@@ -4,7 +4,7 @@
 *如果a[mid] >= a[left]，则mid在左递增区间，此时再分析target的位置
 *a[mid] < a[left]也一样
 */
-public class Solution {
+public class Solution { 
     public boolean search(int[] nums, int target) {
         int left = 0, right = nums.length-1;
         while(left <= right){
