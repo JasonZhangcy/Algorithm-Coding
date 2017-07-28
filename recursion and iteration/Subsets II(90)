@@ -5,7 +5,7 @@
 *permutation则要每一层都从0开始遍历，同时记录使用过的元素（一般是用一个数组记录）、
 */
 public class Solution {
-    List<List<Integer>> res = new ArrayList();
+    List<List<Integer>> res = new ArrayList(); 
     public List<List<Integer>> subsetsWithDup(int[] nums) {
         Arrays.sort(nums);
         backtrack(new ArrayList(),nums,0);
