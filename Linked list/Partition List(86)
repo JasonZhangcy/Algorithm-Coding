@@ -1,0 +1,34 @@
+/**
+*时间复杂度:O(n)
+*思路：用两个【队列】，一个记录小于x的数，一个记录大于等于x的数，最后把两个队列连起来
+*注意队列2的tail最后一定要设为null,否则会死循环
+*像这种明显按顺序的遍历的题目，联想【队列】！！
+*/
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode(int x) { val = x; }
+ * }
+ */
+public class Solution {
+    public ListNode partition(ListNode head, int x) {
+        ListNode dummy1 = new ListNode(-1), dummy2 = new ListNode(-1);
+        ListNode small = dummy1, large = dummy2;
+        while(head != null){
+            if(head.val < x){
+                small.next = head;
+                small = small.next;
+            }else{
+                large.next = head;
+                large = large.next;
+            }
+            head = head.next;
+        }
+        //important!! or we will get TLE!!
+        large.next = null;
+        small.next = dummy2.next;
+        return dummy1.next;
+    }
+}
