@@ -3,7 +3,7 @@
 *思路：动态规划，如果没有0的麻烦，则用O(i)表示当前下标数字可以组成的组数
 *则O(i) = O(i-1) + {O(i-2)}("a[i-1]a[i]" <= 26)
 *问题是现在有0的困扰，所以应该先取当前的一位数，以及当前和前一位组成的两位数，再进一步判断
-*/ 
+*/  
 public class Solution {
     public int numDecodings(String s) {
         if(s.length() == 0) return 0; 
