@@ -1,7 +1,7 @@
 /**
 *思路：每进一层就add一次
 *关于combination、permutation的总结：
-*combination的下一层直接i+1即可；如果有重复元素，则先排序，然后重复的元素continue(每一层的第一个重复元素不能continue)
+*combination的下一层直接i+1即可；如果有重复元素，则先排序，然后重复的元素continue，但注意：每一层的第一个重复元素不能continue（一般是有重复元素的时候才要在意这个问题）
 *permutation则要每一层都从0开始遍历，同时记录使用过的元素（一般是用一个数组记录）、
 */
 public class Solution {
