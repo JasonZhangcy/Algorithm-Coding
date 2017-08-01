@@ -1,0 +1,41 @@
+/**
+*思路：递归
+*先遍历当层下所有可能的value，以该value作为root，递归形成左子树集合右子树集，然后将左、右子树集的所有可能组合起来，再插入当前root中
+*这种递归思路与我们之前做的不一样，之前我们只要达到其中一条path满足条件即可返回，而这里是要形成一棵树再返回，仔细想想其中的差异
+*/
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+public class Solution {
+    public List<TreeNode> generateTrees(int n) {
+        if(n == 0) return new ArrayList();
+        return generate(1,n);
+    }
+    public List<TreeNode> generate(int start, int end){
+        List<TreeNode> roots = new ArrayList();
+        if(start > end){
+            roots.add(null);
+            return roots;
+        }
+        for(int i = start; i <= end; i++){
+            List<TreeNode> leftSubTrees = generate(start,i-1);
+            List<TreeNode> rightSubTrees = generate(i+1,end);
+            //组合leftSubTrees和rightSubTrees
+            for(TreeNode leftTree : leftSubTrees){
+                for(TreeNode rightTree : rightSubTrees){
+                    TreeNode root = new TreeNode(i);
+                    root.left = leftTree;
+                    root.right = rightTree;
+                    roots.add(root);
+                }
+            }
+        }
+        return roots;
+    }
+}
