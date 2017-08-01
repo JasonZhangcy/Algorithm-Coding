@@ -1,0 +1,37 @@
+/**
+*时间复杂度：O(n^2)
+*思路:一开始我用的是递归，结果超时，其实真正的做法是动态规划
+*设dp(i)为1,2...i的总BST数
+*例如求dp[5]，那么当取1为root时，左子树和右子树分别为none和[2,3,4,5]，而求[2,3,4,5]就相当于求[1,2,3,4]
+*所以求1为root时的总数为：dp[0]*dp[4]，同理可应用于2，3，4，5为根时的情况，再将这5种情况加起来就是dp[5]
+*/
+public class Solution {
+    public int numTrees(int n) {
+        int[] dp = new int[n+1];
+        dp[0] = 1;
+        dp[1] = 1;
+        for(int i = 2; i <= n; i++){
+            for(int root = 1; root <= i; root++){
+                dp[i] += dp[root-1] * dp[i-root];
+            }
+        }
+        return dp[n];
+    }
+}
+
+ps:附上我的递归方法
+public class Solution {
+    public int numTrees(int n) {
+        return backtrack(n,1,n);
+    }
+    public int backtrack(int n, int start, int end){
+        if(start >= end) return 1;
+        int sum = 0;
+        for(int i = start; i <= end; i++){
+            int left = backtrack(n,start,i-1);
+            int right = backtrack(n,i+1,end);
+            sum += left * right;
+        }
+        return sum;
+    }
+}
