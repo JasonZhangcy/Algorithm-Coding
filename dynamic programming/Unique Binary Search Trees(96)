@@ -4,6 +4,7 @@
 *设dp(i)为1,2...i的总BST数
 *例如求dp[5]，那么当取1为root时，左子树和右子树分别为none和[2,3,4,5]，而求[2,3,4,5]就相当于求[1,2,3,4]
 *所以求1为root时的总数为：dp[0]*dp[4]，同理可应用于2，3，4，5为根时的情况，再将这5种情况加起来就是dp[5]
+*[2,3,4,5] is the same as [1,2,3,4]这种思路值得学习
 */
 public class Solution {
     public int numTrees(int n) {
