@@ -11,7 +11,7 @@
  *     TreeNode(int x) { val = x; }
  * }
  */
-public class Solution {
+public class Solution { 
     public boolean isValidBST(TreeNode root) {
         return isValid(root,null,null);
     }
