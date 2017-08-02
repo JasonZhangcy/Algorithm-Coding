@@ -1,0 +1,24 @@
+/**
+*思路：关键在于每一个节点都要控制在一个范围，若超出这个范围则return false
+*tricky的地方在于用Integer接收参数，因为最左边和最右边是没有最小值和最大值的，此时只用看一边就行了
+*/
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+public class Solution {
+    public boolean isValidBST(TreeNode root) {
+        return isValid(root,null,null);
+    }
+    public boolean isValid(TreeNode node, Integer low, Integer high){
+        if(node == null) return true;
+        if(low != null && node.val <= low || high != null && node.val >= high)
+            return false;
+        return isValid(node.left,low,node.val) && isValid(node.right,node.val,high);
+    }
+}
