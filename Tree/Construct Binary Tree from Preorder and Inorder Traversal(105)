@@ -1,0 +1,33 @@
+/**
+*思路：利用preorder找到当前子树下的根节点，然后利用inorder找到这个根节点的位置，那么我们就知道当前子树的左子树和右子树了
+*继续递归，直至只有一个节点或者为null的情况
+*有一点可以对这个算法加以改进：我们每次都要循环遍历inorder找到根节点的位置，其实我们可以用Hashmap储存inorder每个节点的位置，那么就可以很快找到根节点了
+*/
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+public class Solution {
+    public TreeNode buildTree(int[] preorder, int[] inorder) {
+        return buildTree(preorder,0,preorder.length-1,inorder,0,inorder.length-1);
+    }
+    public TreeNode buildTree(int[] preorder,int pre1, int pre2, int[] inorder, int in1, int in2){
+        if(in1 > in2) return null;
+        if(in1 == in2) return new TreeNode(inorder[in1]);
+        TreeNode root = new TreeNode(preorder[pre1]);
+        int pivot = in1;
+        for(;pivot <= in2; pivot++){
+            if(inorder[pivot] == root.val) break;
+        }
+        TreeNode left = buildTree(preorder,pre1+1,pre1+pivot-in1,inorder,in1,pivot-1);
+        TreeNode right = buildTree(preorder,pre2-(in2-pivot)+1,pre2,inorder,pivot+1,in2);
+        root.left = left;
+        root.right = right;
+        return root;
+    }
+}
