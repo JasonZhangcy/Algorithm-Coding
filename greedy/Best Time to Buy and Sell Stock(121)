@@ -9,6 +9,6 @@ public class Solution {
             minSell = Math.min(minSell,prices[i]);
             res = Math.max(res,prices[i]-minSell);
         }
-        return res;
+        return res; 
     }
 }
