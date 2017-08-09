@@ -3,7 +3,7 @@
 *思路：记录当前的最小卖出值，然后用当前prices[i]-最小卖出值 与 当前最大profit比较
 */
 public class Solution {
-    public int maxProfit(int[] prices) {
+    public int maxProfit(int[] prices) { 
         int minSell = Integer.MAX_VALUE, res = 0;
         for(int i = 0; i < prices.length; i++){
             minSell = Math.min(minSell,prices[i]);
