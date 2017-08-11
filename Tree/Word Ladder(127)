@@ -1,0 +1,39 @@
+/**
+*思路：BFS，如果每层距离为1，那么BFS是很好的解决距离问题的方法
+*找出每一层当前单词只相差1个字母的单词，然后加到下一层里面去——但是
+*一开始这一个步骤我是遍历了curList和所有wordList的单词，相当于O(n^2)的复杂度
+*所以更快的做法是把当前单词的每一个位置的字母换成'a'-'z'的任意字母，看这个新单词是否出现在dic里，如果在的话，就加入下一层，同时删除dic里的这个单词
+*为什么要把wordList转换成一个dic的set:如果不转的话是过不了的，可能list.contains()是一个顺序查找？
+*/
+public class Solution {
+    public int ladderLength(String beginWord, String endWord, List<String> wordList) {
+        Set<String> dic = new HashSet<>(wordList);
+        LinkedList<String> queue = new LinkedList();
+        int level = 1;
+        
+        queue.add(beginWord);
+        
+        while(!queue.isEmpty()){
+            int size = queue.size(); //取当前层的size
+            
+            for(int cnt = 1; cnt <= size; cnt++){//遍历当前层
+                String word = queue.poll();
+                
+                for(int i = 0; i < word.length(); i++){
+                    char[] wordArray = word.toCharArray();
+                    for(char ch = 'a'; ch <= 'z'; ch++){
+                        wordArray[i] = ch;
+                        String str = String.valueOf(wordArray);
+                        if(dic.contains(str)){
+                            if(str.equals(endWord)) return level + 1;
+                            queue.add(str);
+                            dic.remove(str);
+                        }
+                    }
+                }
+            }
+            level++;
+        }
+        return 0;
+    }
+}
