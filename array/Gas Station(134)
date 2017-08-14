@@ -1,0 +1,20 @@
+/**
+*时间复杂度;O(n)
+*关键点：1.只要总的gas[i] > 总的cost[i]，那么一定存在起始点能跑完一个圈
+*2.先设start = 0, 如果到了某一个点(例如i)过不去了，那么不仅start不能作为起始点，在start~i之间的所有点都不能作为起始点，所以start要设为下一个点，同时cur = 0
+*/
+public class Solution {
+    public int canCompleteCircuit(int[] gas, int[] cost) {
+        int total = 0, cur = 0, start = 0;
+        for(int i = start; i < gas.length; i++){
+            total += gas[i] - cost[i];
+            if(cur + gas[i] >= cost[i]){
+                cur += gas[i] - cost[i];
+            }else{
+                start = i + 1;
+                cur = 0;
+            }
+        }
+        return (total >= 0) ? start : -1;
+    }
+}
