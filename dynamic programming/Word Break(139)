@@ -1,0 +1,19 @@
+/**
+*时间复杂度：O(n^2)
+*思路：动态规划，设dp[i]表示以0-i的字符串是否能用wordDict表示，则dp[i] = dp(k) && (s.substr(k,n) in wordDict);存在 k in [0 - i]\
+*/
+public class Solution {
+    public boolean wordBreak(String s, List<String> wordDict) {
+        HashSet<String> dict = new HashSet<String>(wordDict);
+        boolean[] dp = new boolean[s.length()];
+        if(dict.contains(s.substring(0,1))) dp[0] = true;
+        for(int i = 1; i < dp.length; i++){
+            if(dict.contains(s.substring(0,i+1))) dp[i] = true; //判断0-i这整个子串是否在wordDict中
+            else{
+                for(int k = 0; k < i; k++)
+                    if(dp[k] && dict.contains(s.substring(k+1,i+1))) dp[i] = true;
+            }
+        }
+        return dp[dp.length-1];
+    }
+}
