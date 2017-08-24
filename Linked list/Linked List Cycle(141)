@@ -1,0 +1,27 @@
+/**
+*时间复杂度：O(n)
+*思路就是用快、慢两个指针，快指针每次走两步，慢指针每次走一步，如果有环，快指针必定会追上慢指针（想想操场跑步）
+*这也是为什么是O(n),因为是以慢指针为标准的
+*/
+/**
+ * Definition for singly-linked list.
+ * class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode(int x) {
+ *         val = x;
+ *         next = null;
+ *     }
+ * }
+ */
+public class Solution {
+    public boolean hasCycle(ListNode head) {
+        ListNode fast = head, slow = head;
+        while(fast != null && slow != null && fast.next != null){
+            fast = fast.next.next;
+            slow = slow.next;
+            if(fast == slow) return true;
+        }
+        return false;
+    }
+}
