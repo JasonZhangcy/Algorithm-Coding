@@ -1,0 +1,36 @@
+/**
+*时间复杂度：O(n)
+*同样用两个快慢指针，快的走两步，慢的走一步
+*设环开始地点是A,快慢指针相遇地点和环开始地点相距B，相遇地点继续走到环开始地点距离是K，快指针走的路程是慢的两倍，那么：
+*A+B+K+B = 2(A+B) => A = K
+*所以在相遇之后，令慢指针继续走，设另一个慢指针从起始地点出发，则两慢指针相遇时的地点就是所求
+*/
+/**
+ * Definition for singly-linked list.
+ * class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode(int x) {
+ *         val = x;
+ *         next = null;
+ *     }
+ * }
+ */
+public class Solution {
+    public ListNode detectCycle(ListNode head) {
+        ListNode fast = head, slow = head;
+        while(fast != null && fast.next != null){
+            fast = fast.next.next;
+            slow = slow.next;
+            if(fast == slow){
+                ListNode slow2 = head;
+                while(slow != slow2){
+                    slow = slow.next;
+                    slow2 = slow2.next;
+                }
+                return slow;
+            }
+        }
+        return null;
+    }
+}
