@@ -11,37 +11,30 @@ public class TreeNode {
 
 }
 */
+
 public class Solution {
-    //find the node in tree1 that euqals to root2
+    /**
+     *Use DFS to traverse Tree 1
+     *Find the same value node of Tree 1 and root of Tree 2
+     *Then use IsSubtree to determine whether Tree 2 is subtree of Tree 1
+     */
     public boolean HasSubtree(TreeNode root1,TreeNode root2) {
-        if(root2 == null) return false;
-        boolean flag = false;
-        if(root1 != null){
-            if(root1.val == root2.val){
-                flag = IsSubtree(root1,root2);
-                if(!flag)
-                    flag = HasSubtree(root1.left,root2);
-                if(!flag)
-                    flag = HasSubtree(root1.right,root2);
-            }
+        if(root1 == null || root2 == null) return false;
+        if(root1.val == root2.val)
+        {
+            if(IsSubtree(root1, root2)) return true;
         }
-        return flag;
-        
+        return HasSubtree(root1.left, root2) || HasSubtree(root1.right, root2);
     }
-    //to find whether tree1 euqals to tree2
-    public boolean IsSubtree(TreeNode root1,TreeNode root2){
-        if (root1 == null && root2 == null || root1 != null && root2 == null)
-            return true;
-        if(root1 == null && root2 != null)
-            return false;
-        if(root1.val != root2.val) return false;
-        boolean left = IsSubtree(root1.left,root2.left);
-        boolean right = IsSubtree(root1.right,root2.right);
-        return left && right;
-        //if(left == false || right == false)
-            //return false;
-        //else
-            //return true;
+    
+    /**
+     *Determine whether Tree 2 is subtree of Tree 1
+     */
+    public boolean IsSubtree(TreeNode root1, TreeNode root2){
+        if(root2 == null) return true; // root2 must be sub-root of root 1 if it is null
+        if(root1 == null || root1.val != root2.val) return false;
+        return IsSubtree(root1.left, root2.left) && IsSubtree(root1.right, root2.right);
+        
     }
 }
 
