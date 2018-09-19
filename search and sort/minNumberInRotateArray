@@ -1,38 +1,30 @@
 import java.util.ArrayList;
 public class Solution {
-    //思想：二分查找
-    //控制左指针在左“递增”序列，右指针在右“递增”序列
+    /**
+     *思想：二分查找
+     *控制左指针在左“递增”序列，右指针在右“递增”序列
+     */
     public int minNumberInRotateArray(int [] array) {
-    	if (array.length == 0) return 0;
-        int min;
-        int left = 0;
-        int right = array.length-1;
-        //数组没有一个元素旋转
-        if(array[left] < array[right])
-            return array[left];
-        while(true){
-            int mid = (left + right)/2;
-            //如果这三者都相等，那么无法判断中点到底落在哪一部分，此时只能用顺序查找
-            if(array[left] == array[right] && array[mid] == array[right]){
-                min = minInOrder(left,right,array);
-                break;
-            }
-            if(right-left == 1){
-                min = array[right];
-                break;
-            }
-            if(array[mid] >= array[left])
-                left = mid; //注意不是left = mid + 1,否则最后会超过界限
-            if(array[mid] <= array[right])
-                right = mid;
+        if(array.length == 0 || array == null) return 0;
+        int left = 0, right = array.length  - 1, mid = (left + right) / 2;
+        if(array[right] > array[left]) return array[0];  // 如果一开始就是“递增”序列则只直接返回第一个数
+        while(right - left != 1){//保证最后左指针指向左区域最后一个元素，右指针指向右区域第一个元素
+            mid = (left + right) / 2;
+            if(array[mid] == array[left] && array[mid] == array[right]) return findMinBySequentialSearch(array);
+            if(array[mid] >= array[left]) left = mid; 
+            if(array[mid] <= array[right]) right = mid; 
+            //分别注意是>=array[left]和<=array[right]，因为要符合“控制两指针在两个区域”的逻辑；
+            //另外注意这里不能使用left = mid - 1, right = mid + 1, 否则最后指针会溢出区域
         }
-        return min;
+        return array[right];
     }
-    //顺序查找
-    public int minInOrder(int left,int right,int[] array){
-        int min = array[left];
-        for (int i = left+1; i <= right; i++){
-            min = Math.min(min,array[i]);
+    /**
+     *顺序查找
+     */
+    public int findMinBySequentialSearch(int[] array){
+        int min = array[0];
+        for(int num : array){
+            min = Math.min(min, num);
         }
         return min;
     }
