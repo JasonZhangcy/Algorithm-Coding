@@ -49,7 +49,7 @@ public class Solution {//Solution 2
             while(cur.next!=null&&cur.val==cur.next.val){
                 cur=cur.next;
             }
-            if(pre.next==cur){
+            if(pre.next==cur){//如果这两者相等，说明cur没动过，也就是cur是唯一值，是我们要的值
                 pre=pre.next;
             }
             else{
