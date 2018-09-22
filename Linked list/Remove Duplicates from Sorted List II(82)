@@ -1,8 +1,8 @@
 /**
 *时间复杂度:O(n)
-*思路：先找到第一个与前面值不同的节点（用node来表示）
-*如果node.val != node.next.val，那么这个node是我们要的，pre = node
-*否则，我们就要循环找到第一个与前面值不同的节点
+*思路：先找到第一个与不重复值得节点（用node来表示）
+*如果node.val != node.next.val，那么这个node是我们要加入最终list里面的
+*否则，我们就要循环找到第一个与重复值不同的节点
 */
 
 /** 
@@ -16,10 +16,11 @@
 public class Solution {
     public ListNode deleteDuplicates(ListNode head) {
         ListNode pre = new ListNode(-1);
-        ListNode first = pre, node = head;
+        ListNode first = pre;
+        ListNode node = head;
         pre.next = head;
         while(node != null && node.next != null){
-            if(node.val != node.next.val){
+            if(node.val != node.next.val){//唯一值节点，是我们要的节点
                 pre = node;
             }else{
                 while(node.next != null && node.val == node.next.val){
