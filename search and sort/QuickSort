@@ -29,7 +29,7 @@ public static int Patition(int[] array,int left,int right){
 	}
 	//important!! 因为pivot的位置一直在left上没变过,同时退出循环时low所指的是最后一个<=pivot的元素，所以最后必须把pivot调整到“中心点”上
 	Swap(array, left, low); 
-	return low;
+	return low; // “中心点”所在位置 
 }
 
 /**
