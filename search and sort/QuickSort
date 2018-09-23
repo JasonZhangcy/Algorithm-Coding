@@ -1,59 +1,61 @@
-	public static void qSort(int[] array){
-		quickSort(array,0,array.length-1);
-	}
-	public static void quickSort(int[] array,int left,int right){
-		if(left >= right) return;
-		int p = Patition(array,left,right);
-		quickSort(array,left,p-1);
-		quickSort(array,p+1,right);
-	}
-	/**
-	*solution1
-	*/
-	public static int Patition(int[] array,int left,int right){
-		//选数组第一个元素为基准点
-		int p = left;
-		//选随机数作为基准点
-		int p = (int)(Math.random()*(right-left+1))+left;
-		Swap(array,p,left);
-		p = left;
-		
-		int a = left;
-		int b = right;
-		while(true){
-			while(array[a] <= array[p] && a < b){a++;}
-			//不加&&a<b判断是因为保证最后退出循环时b所指的元素是最后一个小于等于array[p]的元素
-			while(array[b] > array[p]){b--;}
-			if(a >= b) break;
-			Swap(array,a,b);
-		}
-		Swap(array,p,b);
-		return b;
-	}
+public static void qSort(int[] array){
+	quickSort(array,0,array.length-1);
+}
+public static void quickSort(int[] array,int left,int right){
+	if(left >= right) return;
+	int p = Patition(array,left,right);
+	quickSort(array,left,p-1);
+	quickSort(array,p+1,right);
+}
+/**
+*solution1
+*/
+public static int Patition(int[] array,int left,int right){
+	//选数组第一个元素为基准点
+	//int pivot = left;
 	
-	/**
-	*solution2
-	*/
-	public static int Patition(int[] array,int left,int right){
-		//思想是其实一个指针所指的元素是多余的（场上存在两个相同的元素）
-		int po = (int)(Math.random()*(right-left+1)) + left;
-        	Swap(array,po,left);
-        	int pivot = array[left];
-        	int low = left, high = right;
-        	while(low < high){
-            		while(array[high] > pivot && low < high){high--;}
-            		array[low] = array[high];
-            		while(array[low] <= pivot && low < high){low++;}
-            		array[high] = array[low];
-        	}
-        	array[low] = pivot;
-        	return low;
+	//或者选随机数作为基准点
+	int po = (int)(Math.random()*(right-left+1))+left;
+	int pivot = array[po];
+	Swap(array,po,left); // 交换位置是为了确定pivot的位置，方便后面将pivot放到“中心点”
+	int low = left, high = right;
+	while(low < right){
+		while(low < high && array[high] > pivot) 
+			high--;
+		while(low < high && array[low] <= pivot)
+			low++;
+		if(low < high)
+			Swap(array, low, high);
 	}
-	public static void Swap(int[] array,int a, int b){
-		int tmp = array[a];
-		array[a] = array[b];
-		array[b] = tmp;
-	}
+	Swap(array, left, low); //important!! 因为pivot的位置一直在left上没变过，所以最后必须把它调整到“中心点”上
+	return low;
+}
+
+/**
+*solution2
+*/
+public static int Patition(int[] array,int left,int right){
+	//思想:把大的元素复制到左边，把小的元素复制到右边
+	//每次大循环结束后，low所指的元素其实是多余的，因为它所指的元素（元素值大于pivot）复制给了当前high所指的元素
+	//所以最后把pivot赋予low所指的元素
+	int po = (int)(Math.random()*(right-left+1)) + left;
+    	Swap(array,po,left);
+    	int pivot = array[left];
+    	int low = left, high = right;
+    	while(low < high){
+        	while(array[high] > pivot && low < high){high--;}
+        	array[low] = array[high];
+        	while(array[low] <= pivot && low < high){low++;}
+        	array[high] = array[low];
+    	}
+    	array[low] = pivot;
+    	return low;
+}
+public static void Swap(int[] array,int a, int b){
+	int tmp = array[a];
+	array[a] = array[b];
+	array[b] = tmp;
+}
 
  
 
