@@ -1,44 +1,42 @@
 import java.util.ArrayList;
-public class Solution {//iteration version
+public class Solution {
     public ArrayList<Integer> GetLeastNumbers_Solution(int [] input, int k) {
         ArrayList<Integer> array = new ArrayList<Integer>();
-        if(input.length < k || k == 0)
-            return array;
-        int start = 0,end = input.length-1;
-        int po = Patition(input,start,end);
-        //只要po==k-1，则po及前面有k个最小数
-        while(po != k-1){
-            if(po < k-1)
-                po = Patition(input,po+1,end);
-            else
-                po = Patition(input,start,po-1);
+        if (input.length == 0 || input == null) return array;
+        if (k > input.length || k == 0) return array;
+        int left = 0, right = input.length - 1;
+        int index = patition(input, left, right);
+        while (index != k - 1) {
+            if (index > k - 1)
+                right = index - 1;
+            else 
+                left = index + 1;
+            index = patition(input, left, right);
         }
-        for (int i = 0; i < k; i++){
+        for (int i = 0; i < k; i++) {
             array.add(input[i]);
         }
         return array;
     }
-    public int Patition(int[] array,int low,int high){
-        int po = (int)(Math.random()*(high-low+1)) + low;
-        Swap(array,po,low);
-        po = low;
+    public int patition (int[] input, int low, int high) {
+        int index = (int)(Math.random() * (high - low + 1)) + low;
+        int pivot = input[index];
+        mySwap(input, low, index);
         int left = low, right = high;
-        while(true){
-            while(array[left] <= array[po] && left < right){left++;}
-            while(array[right] > array[po]){right--;}
-            if(left >= right) break;
-            Swap(array,left,right);
+        while (left < right){
+            while (left < right && input[right] > pivot) right--;
+            while (left < right && input[left] <= pivot) left++;
+            mySwap(input, left, right);
         }
-        Swap(array,po,right);
-        return right;
+        mySwap(input, left, low);
+        return left;
     }
-    public void Swap(int[] array, int a, int b){
-        int tmp = array[a];
-        array[a] = array[b];
-        array[b] = tmp;
+    public void mySwap (int[] input, int index1, int index2) {
+        int tmp = input[index1];
+        input[index1] = input[index2];
+        input[index2] = tmp;
     }
 }
-
 
 import java.util.ArrayList;
 public class Solution {//recursion version
