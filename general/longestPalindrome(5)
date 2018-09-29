@@ -1,10 +1,10 @@
 /**
 *时间复杂度：O(n * longestLen)
-*思路：greedy
-*设当前最长回文串为longestLen
-*遍历字符串，每次只需检查(i-longestLen-1,i)以及（i-longestLen,i）是否回文串
-*在longestLen之后的下标显然不必检查
-*在longestLen之前的下标也不用检查，因为如果这是最长回文串，则实际最长回文串肯定比当前值大，这是不可能的
+*思路：寻找以【当前i】【结尾】的字符串的最大回文串
+*设最长回文串长度为longestLen
+*当前i结尾的最大回文串【只可能】是(i-longestLen,i)以及（i-longestLen-1,i）
+*首先大于i-longestLen的下标显然不用检查
+*其次，设x>=2,如果(i-longestLen-x,i)是最长回文串，则实际最长回文串肯定比当前值大，这是不可能的（自己举例看看）
 */
 public class Solution {
     public String longestPalindrome(String s) {
