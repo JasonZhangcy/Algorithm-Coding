@@ -1,4 +1,5 @@
 /**
+*Solution 1
 *时间复杂度：O(n * longestLen)
 *思路：寻找以【当前i】【结尾】的字符串的最大回文串
 *设最长回文串长度为longestLen
@@ -34,3 +35,30 @@ public class Solution {
     }
 } 
 
+/**
+ *Solution 2
+ *动态规划：如果字符串s(j,i)为回文串，则dp[j][i]为true
+ *如果dp[j+1][i-1]为true并且s.charAt(j) == s.charAt(i)，则dp[j][i]为true
+ */
+class Solution {
+    public String longestPalindrome(String s) {
+        if (s.length() == 0 || s == null) return "";
+        boolean[][] dp = new boolean[s.length()][s.length()];
+        String result = "";
+        for (int i = 0; i < s.length(); i++) {
+            for (int j = 0; j <= i; j++) {
+                if (s.charAt(i) == s.charAt(j) && (i - j <= 2 || dp[j+1][i-1])) {
+                    dp[j][i] = true;
+                    if (i - j + 1 > result.length() {
+                        result = s.substring(j, i + 1);
+                    }
+                } 
+            }
+        }
+        return result;
+    }
+}
+ 
+ 
+ 
+ 
