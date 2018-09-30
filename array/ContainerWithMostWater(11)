@@ -4,6 +4,8 @@
 *由于面积公式为:(high-low)*min(a[low],a[high])
 *此时(high-low)最大，如果想要增加面积，只能增大a[low]或a[high]
 *如果a[low] < a[high],则左指针向左移；反之右指针向右移
+*证明：假设low和high此时最小最大并且a[low]<a[high]，如果我们不是移动low而是移动high,那么面积是绝对不会增大的
+*也就是说此时low对于增大面积来说是无用的下标，所以必须移动low
 */
 public class Solution {
     public int maxArea(int[] height) {
