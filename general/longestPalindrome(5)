@@ -39,6 +39,8 @@ public class Solution {
  *Solution 2
  *动态规划：如果字符串s(j,i)为回文串，则dp[j][i]为true
  *如果dp[j+1][i-1]为true并且s.charAt(j) == s.charAt(i)，则dp[j][i]为true
+ *在这里dp[j][i]依赖于dp[j+1][i-1]，一开始可能会担心dp[j+1][i-1]的值可能取不到或者说前面没有遍历到这个值
+ *实际上画个图就会明白，如果每次j=0开始遍历到i，则dp[j+1][i-1]是一定可以取到的值，因为j是<=i的
  */
 class Solution {
     public String longestPalindrome(String s) {
@@ -47,7 +49,8 @@ class Solution {
         String result = "";
         for (int i = 0; i < s.length(); i++) {
             for (int j = 0; j <= i; j++) {
-                if (s.charAt(i) == s.charAt(j) && (i - j <= 2 || dp[j+1][i-1])) {
+                if (s.charAt(i) == s.charAt(j) && (i - j <= 2 || dp[j+1][i-1])) {//如果i - j + 1 <= 3 (字符串长度<=3)
+                    //则dp[j][i]一定为true,例如"a","aa","aba"
                     dp[j][i] = true;
                     if (i - j + 1 > result.length() {
                         result = s.substring(j, i + 1);
