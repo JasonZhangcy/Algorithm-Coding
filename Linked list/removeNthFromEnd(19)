@@ -30,10 +30,10 @@ public class Solution {
 }
 
 /**
-*思路：用两个指针来控制距离，一个快一个慢
-*快指针先跑n+1,然后开始跑慢指针
-*最后慢指针指向n+1（从尾部开始数）的node
-*链表的题用两个指针来控制距离也是很常见的做法
+*思路：链表快慢指针的【距离差】问题
+*这里slow很巧妙的设计成结束时与fast相差n个node，而不是slow“踩在”倒数第n个node上
+*这样设计是为了可以利用slow.next = slow.next.next删掉倒数第n个node
+*指针dummy设计得也很巧妙，可以感受一下
 */
 
 /**
@@ -47,10 +47,10 @@ public class Solution {
 public class Solution {
     public ListNode removeNthFromEnd(ListNode head, int n) {
         if(head == null) return null;
-        ListNode node = new ListNode(0);
+        ListNode dummy = new ListNode(-1);
         ListNode slow = node;
         ListNode fast = node;
-        node.next = head;
+        dummy.next = head;
         for(int i = 1; i <= n + 1; i++){
             fast = fast.next;
         }
@@ -59,6 +59,6 @@ public class Solution {
             slow = slow.next;
         }
         slow.next = slow.next.next;
-        return node.next;
+        return dummy.next;
     }
 }
