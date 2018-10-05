@@ -1,0 +1,33 @@
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode(int x) { val = x; }
+ * }
+ */
+ 
+/**
+ *利用dummy找头结点的套路：
+ *令dummy等于将要循环的指针（如这里的node）
+ *当node将要移动时会使node.next = 我们想要的值，这样dummy就指向头结点了
+ */
+class Solution {
+    public ListNode mergeTwoLists(ListNode l1, ListNode l2) {
+        ListNode node = new ListNode(-1);
+        ListNode node1 = l1, node2 = l2, dummy = node;
+        while (node1 != null && node2 != null) {
+            if (node1.val <= node2.val) {
+                node.next = node1;
+                node1 = node1.next;
+            } else {
+                node.next = node2;
+                node2 = node2.next;
+            }
+            node = node.next;
+        }
+        if (node1 != null) node.next = node1;
+        if (node2 != null) node.next = node2;
+        return dummy.next;
+    } 
+}
