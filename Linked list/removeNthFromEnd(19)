@@ -51,7 +51,7 @@ public class Solution {
         ListNode slow = node;
         ListNode fast = node;
         dummy.next = head;
-        for(int i = 1; i <= n + 1; i++){
+        for(int i = 1; i <= n + 1; i++){//先让fast走n+1步，使其与slow相距n
             fast = fast.next;
         }
         while(fast != null){
