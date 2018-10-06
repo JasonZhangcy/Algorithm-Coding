@@ -1,0 +1,23 @@
+/**
+ *思路：一棵树每次有两个选择：添加"("或者是")"
+ *leftTotal: "("的总数量
+ *leftRemain: 现存的"("数量--想象每次添加")"后会减少"("的数量
+ *rightTotal: ")"的总数量
+ */
+class Solution {
+    List<String> res = new ArrayList<String>();
+    public List<String> generateParenthesis(int n) {
+        recursiveGenerate("", 0, 0, 0, n);
+        return res;
+    }
+    public void recursiveGenerate(String str, int leftTotal, int leftRemain, int rightTotal, int n) {
+        if (rightTotal == n) {//当")"数量达到n之后，说明这条path已经满足条件了，可以添加到res里面去
+            res.add(str);
+            return;
+        }
+        if (leftTotal < n) 
+            recursiveGenerate(str+"(", leftTotal + 1, leftRemain + 1, rightTotal, n); 
+        if (leftRemain > 0) 
+            recursiveGenerate(str+")", leftTotal, leftRemain - 1, rightTotal + 1, n);
+    }
+}
