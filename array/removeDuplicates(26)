@@ -15,24 +15,3 @@ public class Solution {
         return slow+1;
     }
 }
-
-/**
- *如果题目要求保留所有元素则必须交换，做法如下
- */
-class Solution {
-    public int removeDuplicates(int[] nums) {
-        if (nums.length == 0 || nums == null) return 0;
-        int p = 0, cur = 0;
-        while (p < nums.length) {
-            //当前元素与后一个元素对比，而不是与前一个元素对比
-            //这样做的原因是，交换了元素之后，p所在的元素之前的元素是乱的，无法比较
-            //这样做可以保证每次开始循环时，p所指的元素是第一个不同于前面的元素
-            while (p < nums.length - 1 && nums[p] == nums[p + 1])
-                p++;
-            int tmp = nums[cur];
-            nums[cur++] = nums[p];
-            nums[p++] = tmp;
-        }
-        return cur;
-    }
-}
