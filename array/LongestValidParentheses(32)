@@ -1,0 +1,30 @@
+/**
+ *思路：想利用stack找出所有有效的组合，然后有效的位置标为1，否则为0，最后遍历一下这个数组，把最长的连续“1”找出来
+ */
+class Solution {
+    public int longestValidParentheses(String s) {
+        if (s.length() == 0) return 0;
+        boolean[] arr = new boolean[s.length()];
+        int res = 0, tmp = 0;
+        Stack<Integer> stack = new Stack<Integer>();
+        for (int i = 0; i < s.length(); i++) {
+            if (s.charAt(i) == '(') {
+                stack.push(i);
+            } else {
+                if (!stack.empty()) {
+                    arr[stack.pop()] = true;
+                    arr[i] = true;
+                }
+            }
+        }
+        for (int i = 0; i < s.length(); i++) {
+            if (arr[i]) tmp++;
+            else {
+                res = Math.max(res, tmp);
+                tmp = 0;
+            }
+        }
+        //这里很tricky,别忘了退出循环时可能res并没有更新
+        return Math.max(res, tmp);
+    }
+}
