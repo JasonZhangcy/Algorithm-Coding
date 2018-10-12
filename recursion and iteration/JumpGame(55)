@@ -14,6 +14,6 @@ public class Solution {
             if(last <= i + nums[i])
                 last = i;
         }
-        return (last == 0) ? true : false;
+        return last == 0;
     }
 }
