@@ -47,6 +47,36 @@ public class Solution {
             newList.add(nums[i]);
             Recursion(newList,nums,len+1);
         }    
+    
+}
+
+/**
+ *思路：综合第一种做法，但是并不用额外的空间深拷贝数组
+ */
+class Solution {
+    List<List<Integer>> res = new ArrayList<List<Integer>>();
+    public List<List<Integer>> permute(int[] nums) {
+        permutations(nums, 0, new ArrayList<Integer>());
+        return res;
+    }
+    public void permutations(int[] nums, int start, List<Integer> curList) {
+        if (curList.size() == nums.length) {
+            res.add(new ArrayList<Integer>(curList));
+        }
+        else {
+            for (int i = start; i < nums.length; i++) {
+                curList.add(nums[i]);
+                swap(nums, start, i);
+                permutations(nums, start + 1, curList);
+                swap(nums, start, i); //先交换，递归结束后再交换回来
+                curList.remove(curList.size() - 1); //先add，递归结束后再remove
+            }  
+        }
+    }
+    public void swap(int[] array, int a, int b) {
+        int tmp = array[a];
+        array[a] = array[b];
+        array[b] = tmp;
     }
 }
 
