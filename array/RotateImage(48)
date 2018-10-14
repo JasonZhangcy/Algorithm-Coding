@@ -1,0 +1,39 @@
+/**
+ *Solution 1: equation: (i, j) => (j, len - 1 - i)
+ */
+class Solution {
+    public void rotate(int[][] matrix) {
+        if (matrix.length == 0 || matrix == null) return;
+        int len = matrix.length;
+        for (int i = 0; i <= (len - 1) / 2; i++) {
+            for (int j = i; j < len - 1 - i; j++) {
+                int a = i, b = j, tmp = matrix[a][b];
+                for (int k = 1; k <= 4; k++) { //转四次
+                    int cur = matrix[b][len-1-a];
+                    matrix[b][len-1-a] = tmp;
+                    tmp = cur;
+                    int tmp_a = a;
+                    a = b;
+                    b = len - 1 - tmp_a;
+                }
+            }
+        }
+    }
+}
+
+/**
+ *Solution 2: 思路跟上面一样，只不过公式不是统一的，而是hardcode 4次转换公式
+ */
+public class Solution {
+public void rotate(int[][] matrix) {
+    int n=matrix.length;
+    for (int i=0; i<n/2; i++) 
+        for (int j=i; j<n-i-1; j++) {
+            int tmp=matrix[i][j];
+            matrix[i][j]=matrix[n-j-1][i];
+            matrix[n-j-1][i]=matrix[n-i-1][n-j-1];
+            matrix[n-i-1][n-j-1]=matrix[j][n-i-1];
+            matrix[j][n-i-1]=tmp;
+        }
+    }
+}
