@@ -50,7 +50,7 @@ public class Solution {
         }
         Set<Integer> duplicate = new HashSet<>(); //用这个HashSet来记录本层重复值
         for (int i=index; i<nums.length; i++) {
-            if (duplicate.add(nums[i])) {
+            if (duplicate.add(nums[i])) {//如果已经存在nums[i]则返回false
                 swap(nums, index, i);
                 permute(nums, index+1);
                 swap(nums, index, i);
