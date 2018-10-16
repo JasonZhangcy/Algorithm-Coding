@@ -1,0 +1,89 @@
+/**
+ *Solution 1: 利用3个boolean数组分别记录已经存在的row以及两条对角线上的queen
+ *两条对角线的公式是：1. y = x + k 以及 2. y = -x + k，所以k分别为: 1. k = y - x 以及 2. k = x + y
+ *!!【但是】要注意，我们实际是利用boolean的下标来代表k,所以k必须是>=0的，因此1.中的公式是不够准确的，实际应该是: y = x + n - 1 - k(画图看看)
+ *也就是k = x - y + n - 1
+ */
+class Solution {
+    List<List<String>> res = new ArrayList<List<String>>();
+    public List<List<String>> solveNQueens(int n) {
+        if (n == 0) return res;
+        char[][] matrix = new char[n][n];
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                matrix[i][j] = '.';
+            }
+        }
+        nQueen(matrix, new boolean[n], new boolean[n * 2 - 1], new boolean[n * 2 - 1], 0);
+        return res;
+    }
+    public void nQueen(char[][] matrix, boolean[] usedRow, boolean[] diagonalOne, boolean[] diagonalTwo, int col) {
+        if (col >= matrix.length) {
+            List<String> list = new ArrayList<String>();
+            for (int i = 0; i < matrix.length; i++) {
+                //这里实际把matrix[i]看成一个一维数组，然后利用函数String.valueOf()将其转化为String;这也是为什么matrix是char类型的
+                //因为String类型的不能这么用
+                list.add(String.valueOf(matrix[i]));
+            }
+            res.add(list);
+        }
+        for (int i = 0; i < matrix.length; i++) {
+            if (!usedRow[i] && !diagonalOne[i+col] && !diagonalTwo[i-col+matrix.length-1]) {
+                usedRow[i] = true;
+                diagonalOne[i+col] = true;
+                diagonalTwo[i-col+matrix.length-1] = true;
+                matrix[i][col] = 'Q';
+                
+                nQueen(matrix, usedRow, diagonalOne, diagonalTwo, col + 1);
+                
+                matrix[i][col] = '.';
+                diagonalOne[i+col] = false;
+                diagonalTwo[i-col+matrix.length-1] = false;
+                usedRow[i] = false;
+            }
+        }
+    }
+}
+
+/**
+ *Solution 2: 利用HashSet来代替boolean数组
+ *因为用了HashSet,所以不用担心k的取值，因此可以放心使用 1. k = y - x 以及 2. k = x + y
+ */
+ class Solution {
+    List<List<String>> res = new ArrayList<List<String>>();
+    public List<List<String>> solveNQueens(int n) {
+        if (n == 0) return res;
+        char[][] matrix = new char[n][n];
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                matrix[i][j] = '.';
+            }
+        }
+        nQueen(matrix, new boolean[n], new HashSet<Integer>(), new HashSet<Integer>(), 0);
+        return res;
+    }
+    public void nQueen(char[][] matrix, boolean[] usedRow, HashSet<Integer> diagonalOne, HashSet<Integer> diagonalTwo, int col) {
+        if (col >= matrix.length) {
+            List<String> list = new ArrayList<String>();
+            for (int i = 0; i < matrix.length; i++) {
+                list.add(String.valueOf(matrix[i]));
+            }
+            res.add(list);
+        }
+        for (int i = 0; i < matrix.length; i++) {
+            if (!usedRow[i] && !diagonalOne.contains(i + col) && !diagonalTwo.contains(col - i)) {
+                usedRow[i] = true;
+                diagonalOne.add(i + col);
+                diagonalTwo.add(col - i);
+                matrix[i][col] = 'Q';
+                
+                nQueen(matrix, usedRow, diagonalOne, diagonalTwo, col + 1);
+                
+                matrix[i][col] = '.';
+                diagonalOne.remove(i + col);
+                diagonalTwo.remove(col - i);
+                usedRow[i] = false;
+            }
+        }
+    }
+}
