@@ -28,3 +28,49 @@ public class Solution {
     }
 
 }
+
+/**
+ *Solution by recursion:
+ *跟上面思路差不多，每一层都判断一次k所在的组，如果k > 所在组则跳过，否则进入下一层
+ *@param used[] 记录用过的数字
+ *@param index 跳过的数字的边界
+ *@param range 每一层下面的总possibilities
+ */
+class Solution {
+    String res;
+    boolean found = false;
+    int[] factorial;
+    public String getPermutation(int n, int k) {
+        factorial = new int[n + 1];
+        getFactorial(factorial);
+        permutation(new StringBuilder(), 0, n, k, new boolean[n + 1]);
+        return res;
+    }
+    public void permutation(StringBuilder sb, int index, int n, int k, boolean[] used) {
+        if (sb.length() == n) {
+            res = sb.toString();
+            found = true;
+        } else {
+            for (int i = 1; i <= n && !found; i++) {
+                if (!used[i]) {
+                    int range = factorial[n - sb.length() - 1];
+                    if (k <= index + range) {
+                        used[i] = true;
+                        sb.append(String.valueOf(i));
+                        permutation(sb, index, n, k, used);
+                    } else {
+                        index += range;
+                    }
+                }
+            }
+        }
+    }
+    public void getFactorial(int[] arr) {
+        int product = 1;
+        arr[0] = 1;
+        for (int i = 1; i <= arr.length - 1; i++) {
+            product *= i;
+            arr[i] = product;
+        }
+    }
+}
