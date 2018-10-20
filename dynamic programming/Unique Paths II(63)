@@ -26,7 +26,8 @@ class Solution {
  *We only need to use value at dp[i - 1][j] and dp[i][j - 1] to update dp[i][j]
  *So we update data by using dp[j] = dp[j] + dp[j - 1]
  *Where here dp[j] corresponding to the dp[i - 1][j]) and dp[j - 1] corresponding to the dp[i][j - 1] in the 2D array
- *
+ *另外要注意的是，当j == 0时，dp[j]并不需要更新，因为如果前一个dp[j] == 1, 则后面也会用到这个数据；如果前一个dp[j]是0,那就更不用管了
+ */
 class Solution {
     public int uniquePathsWithObstacles(int[][] obstacleGrid) {
         if (obstacleGrid.length == 0) return 0;
