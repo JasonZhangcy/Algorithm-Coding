@@ -1,0 +1,34 @@
+/**
+ *思路：先遍历一遍找len,然后fast指针找旧list的tail,slow找新list的tail
+ */
+ 
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode(int x) { val = x; }
+ * }
+ */
+class Solution {
+    public ListNode rotateRight(ListNode head, int k) {
+        if (head == null) return head;
+        ListNode dummy = new ListNode(-1);
+        ListNode slow = dummy, fast = dummy;
+        dummy.next = head;
+        int len = 0, slowMoveStep;
+        while (fast.next != null) {
+            len++;
+            fast = fast.next;
+        }
+        slowMoveStep = len - k % len;
+        while (slowMoveStep != 0) {
+            slow = slow.next;
+            slowMoveStep--;
+        }
+        fast.next = dummy.next;
+        dummy.next = slow.next;
+        slow.next = null;
+        return dummy.next;
+    }
+}
