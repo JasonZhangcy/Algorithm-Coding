@@ -1,5 +1,33 @@
 /**
- *
+ *思路：用两次二分法，先在matrix的第一列用，找到target所在行，然后再在行内用一次二分法
+ */
+class Solution {
+    public boolean searchMatrix(int[][] matrix, int target) {
+        if (matrix.length == 0 || matrix[0].length == 0) return false;
+        int top = 0, bottom = matrix.length - 1;
+        while (top <= bottom) {
+            int mid = (top + bottom) / 2;
+            if (matrix[mid][0] == target) return true;
+            else if (matrix[mid][0] > target) bottom = mid - 1;
+            else {
+                int midLength = matrix[mid].length;
+                if (target > matrix[mid][midLength - 1])
+                    top = mid + 1;
+                else {
+                    int left = 0, right = midLength - 1;
+                    while (left <= right) {
+                        int mid2 = (left + right) / 2;
+                        if (matrix[mid][mid2] == target) return true;
+                        else if (matrix[mid][mid2] < target) left = mid2 + 1;
+                        else right = mid2 - 1;
+                    }
+                    return false; //注意这个地方极其容易漏掉！！
+                }
+            }
+        }
+        return false;
+    }
+}
 
 /**
 *时间复杂度：O(logn)
