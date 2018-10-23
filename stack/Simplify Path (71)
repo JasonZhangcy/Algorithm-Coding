@@ -1,0 +1,24 @@
+/**
+ *需要注意的是，以后String之间的比较只能使用str.equals(),而不是 str1 == str2
+ */
+class Solution {
+    public String simplifyPath(String path) {
+        StringBuilder sb = new StringBuilder();
+        String[] arr = path.split("/");
+        Stack<String> stack = new Stack<String>();
+        for (String str : arr) {
+            if (str.length() != 0 && !str.equals("") && !str.equals(".")) {
+                if (str.equals("..")) {
+                    if (!stack.empty()) stack.pop();
+                } else {
+                    stack.push("/" + str);
+                }
+            } 
+        }
+        if (stack.empty()) 
+            sb.append("/");
+        else 
+            while (!stack.empty()) sb.insert(0, stack.pop());
+        return sb.toString();
+    }
+}
