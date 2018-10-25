@@ -1,0 +1,16 @@
+class Solution {
+    public int removeDuplicates(int[] nums) {
+        int slow = 0, fast = 0;
+        boolean isTwice = false;
+        while (fast < nums.length) {
+            if (isTwice && nums[fast] == nums[fast - 1]) {
+                fast++;
+                continue;
+            }
+            else if (fast > 0 && nums[fast] == nums[fast - 1]) isTwice = true;
+            else isTwice = false;
+            nums[slow++] = nums[fast++];
+        }
+        return slow;
+    }
+}
