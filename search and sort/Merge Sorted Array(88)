@@ -1,0 +1,14 @@
+/**
+ *经典的【从后往前】遍历的题目，这样就不会导致从前面开始遍历数据缺失的问题
+ *要注意的是最后只需要保证nums2的数据全部copy即可，nums1的不用，因为nums1的数据本来就在nums1中
+ */
+class Solution {
+    public void merge(int[] nums1, int m, int[] nums2, int n) {
+        int tail1 = m - 1, tail2 = n - 1, k = n + m - 1;
+        while (tail1 >= 0 && tail2 >= 0) {
+            nums1[k--] = (nums1[tail1] > nums2[tail2]) ? nums1[tail1--] : nums2[tail2--];
+        }
+        while (tail2 >= 0) 
+            nums1[k--] = nums2[tail2--];
+    }
+}
