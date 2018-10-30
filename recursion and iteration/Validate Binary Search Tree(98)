@@ -1,6 +1,7 @@
 /**
 *思路：关键在于每一个节点都要控制在一个范围，若超出这个范围则return false
 *tricky的地方在于用Integer接收参数，因为最左边和最右边是没有最小值和最大值的，此时只用看一边就行了
+*【重点】int和Integer的转换可以【直接转！！】，不用利用其它函数，具体看下面代码
 */
 /**
  * Definition for a binary tree node.
