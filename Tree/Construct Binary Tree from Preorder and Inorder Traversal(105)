@@ -1,4 +1,5 @@
 /**
+*Solution 1:
 *思路：利用preorder找到当前子树下的根节点，然后利用inorder找到这个根节点的位置，那么我们就知道当前子树的左子树和右子树了
 *继续递归，直至只有一个节点或者为null的情况
 *有一点可以对这个算法加以改进：我们每次都要循环遍历inorder找到根节点的位置，其实我们可以用Hashmap储存inorder每个节点的位置，那么就可以很快找到根节点了
@@ -12,22 +13,49 @@
  *     TreeNode(int x) { val = x; }
  * }
  */
-public class Solution {
+class Solution {
+    HashMap<Integer, Integer> map = new HashMap<Integer, Integer>();
     public TreeNode buildTree(int[] preorder, int[] inorder) {
-        return buildTree(preorder,0,preorder.length-1,inorder,0,inorder.length-1);
-    }
-    public TreeNode buildTree(int[] preorder,int pre1, int pre2, int[] inorder, int in1, int in2){
-        if(in1 > in2) return null;
-        if(in1 == in2) return new TreeNode(inorder[in1]);
-        TreeNode root = new TreeNode(preorder[pre1]);
-        int pivot = in1;
-        for(;pivot <= in2; pivot++){
-            if(inorder[pivot] == root.val) break;
+        for (int i = 0; i < inorder.length; i++) {
+            map.put(inorder[i], i);
         }
-        TreeNode left = buildTree(preorder,pre1+1,pre1+pivot-in1,inorder,in1,pivot-1);
-        TreeNode right = buildTree(preorder,pre2-(in2-pivot)+1,pre2,inorder,pivot+1,in2);
-        root.left = left;
-        root.right = right;
+        return helper(0, 0, inorder.length - 1, preorder, inorder);
+    }
+    public TreeNode helper(int preRoot, int inStart, int inEnd, int[] preorder, int[] inorder) {
+        if (inStart > inEnd) return null;
+        TreeNode root = new TreeNode(preorder[preRoot]);
+        int pivot = map.get(root.val);
+        int numsOnLeft = pivot - inStart; //计算左子树一共有多少个节点，这样可以根据这个获取右子树的根节点
+        root.left = helper(preRoot + 1, inStart, pivot - 1, preorder, inorder);
+        root.right = helper(preRoot + numsOnLeft + 1, pivot + 1, inEnd, preorder, inorder);
+        return root;
+    }
+}
+
+/**
+ *Solution 2:
+ *利用Queue以及List: 每一层用queue取出第一个值即为当前的层的root，然后利用list的indexOf获取root在inorder里面的位置（当然用HashMap更快）
+ *着重讲一下Arrays.asList()
+ *首先int[]数组【不能】用Arrays.asList()来转换成list，因为Arrays.asList()输入变量应该是一个对象，而int[]数组里面的值是常量，所以不能这么用
+ *String[]数组可以用Arrays.asList()来转换成list,因为数组里面是引用对象
+ *但是List<String> list = Arrays.asList(arr)之后，list不能使用add()或者remove(),因为list此时是一个固定长度的list，这样做会报错
+ *最正确的转换方式为：List<String> list = new ArrayList<String>(Arrays.asList(arr)),这样list后面可以使用add()或者remove()
+ */
+class Solution {
+    public TreeNode buildTree(int[] preorder, int[] inorder) {
+        Queue<Integer> queue = new LinkedList<Integer>();
+        List<Integer> list = new ArrayList<Integer>();
+        for (int i = 0; i < preorder.length; i++) {
+            queue.offer(preorder[i]);
+            list.add(inorder[i]);
+        }
+        return recursion(queue, list, 0, preorder.length - 1);
+    }
+    public TreeNode recursion(Queue<Integer> preorder, List<Integer> inorder, int start, int end) {
+        if (start > end) return null;
+        TreeNode root = new TreeNode(preorder.poll());
+        root.left = recursion(preorder, inorder, start, inorder.indexOf(root.val) - 1);
+        root.right = recursion(preorder, inorder, inorder.indexOf(root.val) + 1, end);
         return root;
     }
 }
