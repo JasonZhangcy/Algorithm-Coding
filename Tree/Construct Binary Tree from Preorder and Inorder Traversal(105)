@@ -39,7 +39,7 @@ class Solution {
  *首先int[]数组【不能】用Arrays.asList()来转换成list，因为Arrays.asList()输入变量应该是一个对象，而int[]数组里面的值是常量，所以不能这么用
  *String[]数组可以用Arrays.asList()来转换成list,因为数组里面是引用对象
  *但是List<String> list = Arrays.asList(arr)之后，list不能使用add()或者remove(),因为list此时是一个固定长度的list，这样做会报错
- *最正确的转换方式为：List<String> list = new ArrayList<String>(Arrays.asList(arr)),这样list后面可以使用add()或者remove()
+ *最正确的转换方式为：List<String> list = new ArrayList<String>(Arrays.asList(arr)),这样list可以使用add()或者remove()
  */
 class Solution {
     public TreeNode buildTree(int[] preorder, int[] inorder) {
