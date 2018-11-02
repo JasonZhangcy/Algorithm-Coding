@@ -1,0 +1,31 @@
+/**
+ *思路：从postorder的后面开始遍历即为遍历根，然后利用inorder获取左右子树，然后先构造右子树，再构造左子树（这是因为根据postorder的特性）
+ */
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+class Solution {
+    public TreeNode buildTree(int[] inorder, int[] postorder) {
+        Queue<Integer> queue = new LinkedList<Integer>();
+        HashMap<Integer, Integer> map = new HashMap<Integer, Integer>();
+        for(int i = inorder.length - 1; i >= 0; i--) {
+            queue.offer(postorder[i]);
+            map.put(inorder[i], i);
+        }
+        return helper(map, queue, 0, inorder.length - 1);
+    }
+    public TreeNode helper(HashMap<Integer, Integer> map, Queue<Integer> postorder, int in1, int in2) {
+        if (in1 > in2) return null;
+        TreeNode root = new TreeNode(postorder.poll());
+        int pivot = map.get(root.val); //获取根节点在inorder中的位置
+        root.right = helper(map, postorder, pivot + 1, in2); //先构造右子树
+        root.left = helper(map, postorder, in1, pivot - 1);
+        return root;
+    }
+}
