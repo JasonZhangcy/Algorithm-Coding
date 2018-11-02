@@ -1,0 +1,24 @@
+/**
+ *【注意点】只要看到【path】字眼，一定要注意节点为null的时候不一定能成为一条path!!!要两个子节点都为null才是一条path！！
+ */
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+class Solution {
+    public boolean hasPathSum(TreeNode root, int sum) {
+        if (root == null) return false;
+        return helper(root, sum, 0);
+    }
+    public boolean helper(TreeNode root, int sum, int cur) {
+        if (root == null) return false;
+        if (root.left == null && root.right == null && cur + root.val == sum)
+            return true;
+        return helper(root.left, sum, cur + root.val) || helper(root.right, sum, cur + root.val);
+    }
+}
