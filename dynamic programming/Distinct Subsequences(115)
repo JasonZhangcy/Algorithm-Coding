@@ -1,0 +1,25 @@
+/**
+ *典型的字符串dp问题
+ *比较好的解释:https://leetcode.com/problems/distinct-subsequences/discuss/37387/A-DP-solution-with-clarification-and-explanation
+ *其实就是两种情况：
+ *1. 如果S(j) != T(i),那么dp[i][j]==str[0,j-1]中包含包含str[0,i]的情况
+ *2. 如果S(j) == T(i),那么也包含两种情况：
+ *（1）首先str[0,j-1]中包含包含str[0,i]的情况是肯定成立的
+ *（2）其次，因为两个字符相等，那么dp[i][j]还等于str[0,i-1]中包含str[0,j-1]的情况
+ *综上，dp[i][j] = dp[i][j - 1] + (s.charAt(j - 1) == t.charAt(i - 1) ? dp[i - 1][j - 1] : 0)
+ */
+class Solution {
+    public int numDistinct(String s, String t) {
+        int[][] dp = new int[t.length() + 1][s.length() + 1];
+        dp[0][0] = 1;
+        for (int i = 0; i <= t.length(); i++) {
+            for (int j = 1; j <= s.length(); j++) {
+                if (i == 0) dp[i][j] = 1; //初始化dp[0][j] = 1,因为数组初始化的原因，dp[i][0] = 0不需要初始化
+                else {
+                    dp[i][j] = dp[i][j - 1] + (s.charAt(j - 1) == t.charAt(i - 1) ? dp[i - 1][j - 1] : 0);
+                }
+            }
+        }
+        return dp[t.length()][s.length()];
+    }
+}
