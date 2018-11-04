@@ -7,6 +7,7 @@
  *（1）首先str[0,j-1]中包含包含str[0,i]的情况是肯定成立的
  *（2）其次，因为两个字符相等，那么dp[i][j]还等于str[0,i-1]中包含str[0,j-1]的情况
  *综上，dp[i][j] = dp[i][j - 1] + (s.charAt(j - 1) == t.charAt(i - 1) ? dp[i - 1][j - 1] : 0)
+ *这种字符串dp问题，是不是都可以规化为：如果字符A[i] == B[j]那么...；否则...
  */
 class Solution {
     public int numDistinct(String s, String t) {
