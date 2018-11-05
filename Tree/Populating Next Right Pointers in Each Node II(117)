@@ -1,0 +1,31 @@
+/**
+ *这题的关键我觉得是利用了LinkedList的dummy节点，从而每次都能方便地找出下一行头节点并且能把各个node连起来
+ */
+/**
+ * Definition for binary tree with next pointer.
+ * public class TreeLinkNode {
+ *     int val;
+ *     TreeLinkNode left, right, next;
+ *     TreeLinkNode(int x) { val = x; }
+ * }
+ */
+public class Solution {
+    public void connect(TreeLinkNode root) {
+        while (root != null) {
+            TreeLinkNode dummy = new TreeLinkNode(-1); //下一行的dummy
+            TreeLinkNode node = dummy; //令node = dummy,那么当node.next有值的时候，dummy.next自然也出来了
+            while (root != null) {
+                if (root.left != null) {
+                    node.next = root.left;
+                    node = node.next;
+                }
+                if (root.right != null) {
+                    node.next = root.right;
+                    node = node.next;
+                }
+                root = root.next;
+            }
+            root = dummy.next;
+        }
+    }
+}
