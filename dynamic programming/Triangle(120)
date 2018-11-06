@@ -1,0 +1,38 @@
+/**
+ *还是典型的有空间限制，然后【从后到前】遍历的题目
+ *可以与119，88题一起看
+ */
+class Solution {
+    public int minimumTotal(List<List<Integer>> triangle) {
+        if (triangle.size() == 0 || triangle.get(0).size() == 0) return 0;
+        List<Integer> path = new ArrayList<Integer>();
+        for (int i = triangle.size() - 1; i >= 0; i--) {//从根节点开始遍历
+            for (int j = 0; j <= i; j++) {
+                if (i == triangle.size() - 1) path.add(triangle.get(i).get(j)); //最底层的根节点因为没有下一层，所以直接复制到path中
+                else {//这里的path相当于当前层的下一层的最短路径
+                    path.set(j, triangle.get(i).get(j) + Math.min(path.get(j), path.get(j + 1)));
+                }
+            }
+        }
+        return path.get(0);
+    }
+}
+
+/**
+ *还有一种写法，跟上面思路一样，只不过把记录的record的list换成数组
+ */
+class Solution {
+    public int minimumTotal(List<List<Integer>> triangle) {
+        if (triangle.size() == 0) return 0;
+        int[] dp = new int[triangle.size() + 1]; //注意！！最后一行的长度其实就是triangle list的层数！！
+        for (int i = triangle.size() - 1; i >= 0; i--) {
+            for (int j = 0; j <= i; j++) {
+                //这里可能会有疑问为什么不用像上面一样初始化最底层的一行
+                //因为这就是tricky的地方：留意到我们的dp数组初始化多了一行，所以其实此时底层为叶子节点全部为0的节点
+                //然后把最后一层等同于正常的循环(留意到数组初始化所有元素初始值为0)
+                dp[j] = triangle.get(i).get(j) + Math.min(dp[j], dp[j + 1]);
+            }
+        }
+        return dp[0];
+    }
+}
