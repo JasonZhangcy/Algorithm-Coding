@@ -5,35 +5,34 @@
 *所以更快的做法是把当前单词的每一个位置的字母换成'a'-'z'的任意字母，看这个新单词是否出现在dic里，如果在的话，就加入下一层，同时删除dic里的这个单词
 *为什么要把wordList转换成一个dic的set:如果不转的话是过不了的，可能list.contains()是一个顺序查找？
 */
-public class Solution {
+class Solution {
     public int ladderLength(String beginWord, String endWord, List<String> wordList) {
-        Set<String> dic = new HashSet<>(wordList);
-        LinkedList<String> queue = new LinkedList();
-        int level = 1;
-        
-        queue.add(beginWord);
-        
-        while(!queue.isEmpty()){
-            int size = queue.size(); //取当前层的size
-            
-            for(int cnt = 1; cnt <= size; cnt++){//遍历当前层
+        HashSet<String> set = new HashSet<String>(wordList);
+        Queue<String> queue = new LinkedList<String>();
+        int cnt = 2;
+        queue.offer(beginWord);
+        while (!queue.isEmpty()) {
+            int len = queue.size(); //细节，先获取本轮要取出的word的len
+            for (int i = 0; i < len; i++) {
                 String word = queue.poll();
-                
-                for(int i = 0; i < word.length(); i++){
-                    char[] wordArray = word.toCharArray();
-                    for(char ch = 'a'; ch <= 'z'; ch++){
-                        wordArray[i] = ch;
-                        String str = String.valueOf(wordArray);
-                        if(dic.contains(str)){
-                            if(str.equals(endWord)) return level + 1;
-                            queue.add(str);
-                            dic.remove(str);
+                for (int j = 0; j < word.length(); j++) {
+                    char[] arr = word.toCharArray();
+                    for (char ch = 'a'; ch <= 'z'; ch++) {//细节！！for循环还能用于char!!!
+                        arr[j] = ch;
+                        String str = String.valueOf(arr);
+                        if(set.contains(str)) {
+                            if (str.equals(endWord)) return cnt;
+                            queue.offer(str);
+                            set.remove(str);
                         }
-                    }
+                    }    
                 }
             }
-            level++;
+            cnt++;
         }
         return 0;
     }
 }
+
+/**
+ *
