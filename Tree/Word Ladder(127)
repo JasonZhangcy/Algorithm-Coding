@@ -35,4 +35,35 @@ class Solution {
 }
 
 /**
- *
+ *同样的思路用StringBuilder
+ */
+class Solution {
+    public int ladderLength(String beginWord, String endWord, List<String> wordList) {
+        HashSet<String> set = new HashSet<String>(wordList);
+        Queue<String> queue = new LinkedList<String>();
+        int cnt = 2;
+        queue.offer(beginWord);
+        while (!queue.isEmpty()) {
+            int len = queue.size(); 
+            for (int i = 0; i < len; i++) {
+                String word = queue.poll();
+                for (int j = 0; j < word.length(); j++) {
+                    StringBuilder sb = new StringBuilder(word); //注意sb不能再外面那层定义，否则会因为引用变量影响全局！！
+                    for (char ch = 'a'; ch <= 'z'; ch++) {
+                        //一开始我TM直接StringBuilder sb = queue.poll()然后在这里修改sb，结果搞半天没发现问题
+                        //结果是因为replace修改了原sb,导致整个for循环的sb都被影响了
+                        //以后字符串（特别是sb）的修改一定一定要注意！！！
+                        String str = sb.replace(j, j + 1, String.valueOf(ch)).toString(); 
+                        if(set.contains(str)) {
+                            if (str.equals(endWord)) return cnt;
+                            queue.offer(str);
+                            set.remove(str);
+                        }
+                    }    
+                }
+            }
+            cnt++;
+        }
+        return 0;
+    }
+}
