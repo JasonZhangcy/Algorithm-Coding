@@ -1,6 +1,7 @@
 /**
 *时间复杂度：O(n^2)
-*思路：动态规划，设dp[i]表示以0-i的字符串是否能用wordDict表示，则dp[i] = dp(k) && (s.substr(k,n) in wordDict);存在 k in [0 - i]\
+*思路：动态规划，设dp[i]表示以0-i的字符串是否能用wordDict表示，则dp[i] = dp(k) && (s.substr(k,n) in wordDict);存在 k in [0 - i]
+*遇到这种字符串的题，同时看到要求返回的是boolean,那么DP的方向也就可以往boolean方向靠
 */
 public class Solution {
     public boolean wordBreak(String s, List<String> wordDict) {
@@ -12,6 +13,8 @@ public class Solution {
             else{
                 for(int k = 0; k < i; k++)
                     if(dp[k] && dict.contains(s.substring(k+1,i+1))) dp[i] = true;
+                    //注意，这里不能用dp[i] = dp[k] && (dict.contains(s.substring(k + 1, i + 1)) ? true : false);
+                    //否则会一直循环同时dp[i]不断被覆盖
             }
         }
         return dp[dp.length-1];
