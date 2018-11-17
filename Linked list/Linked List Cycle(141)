@@ -17,7 +17,7 @@
 public class Solution {
     public boolean hasCycle(ListNode head) {
         ListNode fast = head, slow = head;
-        while(fast != null && slow != null && fast.next != null){
+        while(fast != null && slow != null && fast.next != null){//注意循环判断标准是fast,不是slow!!
             fast = fast.next.next;
             slow = slow.next;
             if(fast == slow) return true;
