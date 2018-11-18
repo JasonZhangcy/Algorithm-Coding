@@ -15,7 +15,7 @@ public class Solution {
         }
         for(int i = start; i <= s.length()-1; i++){
             if(isPalindrome(s,start,i)){
-                List<String> next = new ArrayList(curList);
+                List<String> next = new ArrayList<String>(curList);
                 next.add(s.substring(start,i+1));
                 backtrack(s,next,i+1);
             }
@@ -35,7 +35,7 @@ public class Solution {
 /**DP+DFS的版本**/
 public class Solution {
     public List<List<String>> partition(String s) {
-        List<List<String>> res = new ArrayList<>();
+        List<List<String>> res = new ArrayList<String>();
         boolean[][] dp = new boolean[s.length()][s.length()];
         for(int i = 0; i < s.length(); i++) {
             for(int j = i; j >= 0; j--) {
@@ -45,13 +45,13 @@ public class Solution {
                 }
             }
         }
-        helper(res, new ArrayList<>(), dp, s, 0);
+        helper(res, new ArrayList<String>(), dp, s, 0);
         return res;
     }
     
     private void helper(List<List<String>> res, List<String> path, boolean[][] dp, String s, int pos) {
         if(pos == s.length()) {
-            res.add(new ArrayList<>(path));
+            res.add(new ArrayList<String>(path)); //因为是用了remove的方法，所以要new ArrayList<String>(path)
             return;
         }
         
@@ -59,7 +59,7 @@ public class Solution {
             if(dp[pos][i]) {
                 path.add(s.substring(pos,i+1));
                 helper(res, path, dp, s, i+1);
-                path.remove(path.size()-1);
+                path.remove(path.size()-1); //用了remove的方法
             }
         }
     }
