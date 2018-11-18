@@ -1,0 +1,39 @@
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode(int x) { val = x; }
+ * }
+ */
+class Solution {
+    public void reorderList(ListNode head) {
+        if (head == null) return;
+        ListNode slow = head, fast = head;
+        
+        //step 1: 把list分为前后两半并找到middle node
+        while (fast.next != null && fast.next.next != null) {
+            slow = slow.next;
+            fast = fast.next.next;
+        }
+        
+        //step 2: reverse后半部分,做法参考92题
+        ListNode pre = slow, cur = slow.next;
+        while (cur != null && cur.next != null) {
+            ListNode next = cur.next;
+            cur.next = next.next;
+            next.next = pre.next;
+            pre.next = next;
+        }
+        
+        //step 3: 把后半部分插入到前半部分里面
+        ListNode p1 = head, p2 = pre.next;
+        while (p1 != pre) {
+            pre.next = p2.next; //很容易就漏了这一步！！！做链表的题一定一定要记得把前后指针的next交代好！！
+            p2.next = p1.next;
+            p1.next = p2;
+            p1 = p2.next;
+            p2 = pre.next;
+        }
+    }
+}
