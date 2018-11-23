@@ -1,0 +1,73 @@
+/**
+ * Quick Sort
+ */
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode(int x) { val = x; }
+ * }
+ */
+class Solution {
+    public ListNode sortList(ListNode head) {
+        ListNode dummy = new ListNode(-1);
+        dummy.next = head;
+        quickSort(dummy, null);
+        return dummy.next;
+    }
+    public void quickSort(ListNode left, ListNode right) {
+        if (left.next == right) return;
+        ListNode pivot = left.next;
+        ListNode node = pivot;
+        while (node.next != right) {
+            if (node.next.val >= pivot.val) node = node.next;
+            else {
+                ListNode tmp = node.next;
+                node.next = tmp.next;
+                tmp.next = left.next;
+                left.next = tmp;
+            }
+        }
+        quickSort(left, pivot);
+        quickSort(pivot, right);
+    }
+}
+
+/**
+ * Merge Sort
+ * 注意这里的递归不需要像quick sort那样取left和right,只需要取head就可以了
+ * 为什么可以这样做呢？每次fast的循环终止条件都是null而不是right，是因为即使右半部分取了null，合并了该层之后还是可以找到更右边那层来合并
+ */
+class Solution {
+    public ListNode sortList(ListNode head) {
+        if (head == null || head.next == null) return head;
+        ListNode slow = head, fast = head, pre = null;
+        while (fast != null && fast.next != null) {
+            pre = slow;
+            slow = slow.next;
+            fast = fast.next.next;
+        }
+        pre.next = null; //important!!
+        ListNode l1 = sortList(head); 
+        ListNode l2 = sortList(slow);
+        return merge(l1, l2);
+    }
+    public ListNode merge(ListNode l1, ListNode l2) {
+        ListNode dummy = new ListNode(-1);
+        ListNode node = dummy;
+        while (l1 != null && l2 != null) {
+            if (l1.val < l2.val) {
+                node.next = l1;
+                l1 = l1.next;
+            } else {
+                node.next = l2;
+                l2 = l2.next;
+            }
+            node = node.next;
+        }
+        if (l1 != null) node.next = l1;
+        if (l2 != null) node.next = l2;
+        return dummy.next;
+    }
+}
