@@ -1,0 +1,42 @@
+/**
+ * Solution 1: 
+ * 利用StringBuilder的insert()把Stringinsert到前面来（其实相当于stack）
+ */
+public class Solution {
+    public String reverseWords(String s) {
+        StringBuilder sb = new StringBuilder();
+        int p = 0;
+        while (p < s.length()) {
+            if (s.charAt(p) != ' ') {
+                StringBuilder tmpSb = new StringBuilder(" "); //StringBuilder可以直接这样初始化
+                while (p < s.length() && s.charAt(p) != ' ') {//注意！内部while循环的时候我经常漏了p < s.length()的判断条件！！
+                    tmpSb.append(s.charAt(p));
+                    p++;
+                }
+                sb.insert(0, tmpSb.toString()); //注意StringBuilder的这个insert用法
+            }
+            p++;
+        }
+        return sb.toString().trim();
+    }
+}
+
+/**
+ * Solution 2:
+ * 利用正则表达式将s分割成每个子串
+ * "\s" is a regex class for any kind of whitespace (space, tab, newline, etc). 
+ * Since Java uses "\" as an escape character in strings (e.g. for newlines: "\n"), 
+ * we need to escape the escape character ;-) So it becomes "\\s". 
+ * The "+" means one or more of them.
+ */
+public class Solution {
+    public String reverseWords(String s) {
+        String[] strs = s.trim().split(" +"); //" +"表示1个或多个空格
+        // String[] strs = s.trim().split("\\s+"); 
+        StringBuilder sb = new StringBuilder();
+        for (int i = strs.length - 1; i >= 0; i--) {
+            sb.append(strs[i] + " ");
+        }
+        return sb.toString().trim();
+    }
+}
