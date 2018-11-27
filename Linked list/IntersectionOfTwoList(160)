@@ -9,40 +9,28 @@
  *     }
  * }
  */
-public class Solution {//solution 1
+public class Solution {//Solution 1: 使listA和listB在等长的起点开始循环
     public ListNode getIntersectionNode(ListNode headA, ListNode headB) {
-        if(headA == null || headB == null) return null;
-        int lenA = getLength(headA);
-        int lenB = getLength(headB);
-        ListNode longNode = null;
-        ListNode shortNode = null;
-        ListNode firstNode = null;
-        int dif;
-        if(lenA >= lenB){
-            longNode = headA;
-            shortNode = headB;
-            dif = lenA - lenB;
-        }else{
-            longNode = headB;
-            shortNode = headA;
-            dif = lenB - lenA;
+        if (headA == null || headB == null) return null;
+        int lenA = getLen(headA);
+        int lenB = getLen(headB);
+        while (lenA > lenB) {
+            headA = headA.next;
+            lenA--;
         }
-        for (int i = 1; i <= dif; i++){
-            longNode = longNode.next;
+        while (lenB > lenA) {
+            headB = headB.next;
+            lenB--;
         }
-        while (longNode!= null && shortNode != null){
-            if(longNode == shortNode){
-                firstNode = longNode;
-                break;
-            }
-            longNode = longNode.next;
-            shortNode = shortNode.next;
+        while (headA != headB) {
+            headA = headA.next;
+            headB = headB.next;
         }
-        return firstNode;
+        return headA;
     }
-    public int getLength(ListNode node){
+    public int getLen(ListNode node) {
         int len = 0;
-        while(node != null){
+        while (node != null) {
             len++;
             node = node.next;
         }
