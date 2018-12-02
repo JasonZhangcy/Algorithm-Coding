@@ -20,10 +20,8 @@ public static int Patition(int[] array,int left,int right){
 	Swap(array,po,left); // 交换位置是为了确定pivot的位置，方便后面将pivot放到“中心点”
 	int low = left, high = right;
 	while(low < right){
-		while(low < high && array[high] > pivot) 
-			high--;
-		while(low < high && array[low] <= pivot)
-			low++;
+		while(low < high && array[high] > pivot) high--; //
+		while(low < high && array[low] <= pivot) low++;
 		Swap(array, low, high);
 	}
 	//important!! 因为pivot的位置一直在left上没变过,同时退出循环时low所指的是最后一个<=pivot的元素，所以最后必须把pivot调整到“中心点”上
